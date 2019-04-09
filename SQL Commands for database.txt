@@ -1,0 +1,92 @@
+CREATE TABLE IF NOT EXISTS `Yum`.`Admin` (
+  `idAdmin` INT NOT NULL AUTO_INCREMENT,
+  `First_Name` VARCHAR(45) NOT NULL,
+  `Surname` VARCHAR(45) NOT NULL,
+  `Admin_Username` VARCHAR(45) NOT NULL,
+  `Admin_Password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idAdmin`),
+  UNIQUE INDEX `idAdmin_UNIQUE` (`idAdmin` ASC) VISIBLE)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `Yum`.`Ingredients` (
+  `idIngredients` INT NOT NULL AUTO_INCREMENT,
+  `Ingredient_Name` VARCHAR(45) NOT NULL,
+  `Dietry_Warning` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idIngredients`),
+  UNIQUE INDEX `idIngredients_UNIQUE` (`idIngredients` ASC) VISIBLE)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `yum`.`ingredients_needed` (
+  `idRecipe` INT NOT NULL,
+  `idIngredients` INT NOT NULL,
+  PRIMARY KEY (`idRecipe`, `idIngredients`),
+  INDEX `idIngredients_idx` (`idIngredients` ASC) VISIBLE,
+  CONSTRAINT `idRecipe`
+    FOREIGN KEY (`idRecipe`)
+    REFERENCES `yum`.`recipe` (`idRecipe`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idIngredients`
+    FOREIGN KEY (`idIngredients`)
+    REFERENCES `yum`.`ingredients` (`idIngredients`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `Yum`.`Inventory` (
+  `idUser` INT NOT NULL,
+  `idIngredient` INT NOT NULL,
+  PRIMARY KEY (`idUser`, `idIngredient`),
+  INDEX `idIngredient_idx` (`idIngredient` ASC) VISIBLE,
+  CONSTRAINT `idUser`
+    FOREIGN KEY (`idUser`)
+    REFERENCES `Yum`.`User` (`idUser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idIngredient`
+    FOREIGN KEY (`idIngredient`)
+    REFERENCES `Yum`.`Ingredients` (`idIngredients`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `Yum`.`Recipe` (
+  `idRecipe` INT NOT NULL AUTO_INCREMENT,
+  `Recipe_Name` VARCHAR(45) NOT NULL,
+  `Cooking_Time` INT NOT NULL COMMENT 'Need to change so that it takes the time value. For now it is int and will be set as the minute value',
+  `Prep_Time` INT NOT NULL,
+  `Total_Time` INT NOT NULL,
+  `Calories` INT NOT NULL,
+  `Rating` INT NOT NULL,
+  `Instructions` VARCHAR(45) NOT NULL,
+  `Review` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idRecipe`),
+  UNIQUE INDEX `idRecipe_UNIQUE` (`idRecipe` ASC) VISIBLE)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `Yum`.`Saved_Recipes` (
+  `idUser` INT NOT NULL,
+  `idRecipe` INT NOT NULL,
+  PRIMARY KEY (`idUser`, `idRecipe`),
+  INDEX `idRecipe_idx` (`idRecipe` ASC) VISIBLE,
+  CONSTRAINT `idUser`
+    FOREIGN KEY (`idUser`)
+    REFERENCES `Yum`.`User` (`idUser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idRecipe`
+    FOREIGN KEY (`idRecipe`)
+    REFERENCES `Yum`.`Recipe` (`idRecipe`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `Yum`.`User` (
+  `idUser` INT NOT NULL AUTO_INCREMENT,
+  `First_Name` VARCHAR(45) NOT NULL,
+  `Surname` VARCHAR(45) NOT NULL,
+  `Username` VARCHAR(45) NOT NULL,
+  `User_Password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idUser`),
+  UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) VISIBLE)
+ENGINE = InnoDB
