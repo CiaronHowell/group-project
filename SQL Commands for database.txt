@@ -91,4 +91,19 @@ CREATE TABLE IF NOT EXISTS `Yum`.`User` (
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) VISIBLE)
 ENGINE = InnoDB
 
+USE `yum`;
+CREATE OR REPLACE VIEW `
 SELECT * FROM yum.admin_details;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `ingredient_details` AS
+SELECT * FROM yum.ingredients;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `recipe_details` AS
+SELECT * FROM yum.recipe;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `user_details` AS
+SELECT * FROM yum.user;
+
