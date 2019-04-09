@@ -90,3 +90,5 @@ CREATE TABLE IF NOT EXISTS `Yum`.`User` (
   PRIMARY KEY (`idUser`),
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) VISIBLE)
 ENGINE = InnoDB
+
+SELECT * FROM yum.admin_details;
