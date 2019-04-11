@@ -107,3 +107,59 @@ USE `yum`;
 CREATE  OR REPLACE VIEW `user_details` AS
 SELECT * FROM yum.user;
 
+USE `yum`;
+CREATE  OR REPLACE VIEW `recipes_under_total_time` AS
+SELECT * FROM yum.recipe WHERE total_time < 50;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `recipes_under_certain_calories` AS
+SELECT * FROM yum.recipe WHERE recipe.calories < 50;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `recipe_rating_under` AS
+SELECT * FROM yum.recipe WHERE rating < 4;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `recipe_under_prep_time` AS
+SELECT * FROM yum.recipe WHERE Cooking_Time < 120;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `recipe_under_cooking_time` AS
+SELECT * FROM yum.recipe WHERE Cooking_Time < 90;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `recipes_with_certain_ingredients` AS
+SELECT recipe.*
+FROM Recipe INNER JOIN ingredients ON recipe.idRecipe = ingredients.idIngredients
+WHERE ingredients.Ingredient_Name = "Chicken";
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `users_inventory` AS
+SELECT ingredients.*
+FROM yum.ingredients INNER JOIN yum.user ON ingredients.idIngredients = yum.user.idUser
+WHERE yum.user.idUser = 1;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `users_saved_recipes` AS
+SELECT recipe.*
+FROM recipe INNER JOIN yum.user ON yum.recipe.idRecipe = yum.user.idUser
+WHERE idUser = 1;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `user_forgotten_username_password` AS
+SELECT Username, User_Password
+FROM user
+WHERE idUser = 1;
+
+USE `yum`;
+CREATE  OR REPLACE VIEW `admin_forgotten_username_passowrd` AS
+SELECT Admin_Username, Admin_Password
+FROM yum.admin
+WHERE idAdmin = 1;
+
+//does not work properly
+CREATE VIEW `ingredients_missing` AS
+SELECT ingredients.*
+FROM ingredients INNER JOIN recipe ON ingredients.idIngredients = recipe.idRecipe
+INNER JOIN yum.user ON ingredients.idIngredients = yum.user.idUser
+WHERE recipe.idRecipe = 1
