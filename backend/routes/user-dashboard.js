@@ -22,9 +22,10 @@ router.get('/profile/:user_id', function(req, res) {
     console.log("Fetching user with id: " + req.params.user_id)
     getConnection().query('SELECT * FROM user_details WHERE user_id = ?', [req.params.user_id], function(err, results, fields) {
         if (err) {
-            console.log('Failed to find user profile')
+            console.log('Failed to find user profile' + err)
             res.end()
         }
+        //Returns the results from the query in a JSON format
         res.json(results)
     })
 })
