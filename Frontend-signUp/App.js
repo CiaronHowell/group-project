@@ -16,18 +16,50 @@ export default class App extends React.Component {
       </View>
         <View style={styles.containerBody}>
 
-          <TextInput style = {styles.txt} keyboardType = 'email-address' placeholder = "Email..." onChangeText={(text) => this.setState({text})} />
-          <TextInput style = {styles.txt} placeholder = "First Name..." onChangeText={(text) => this.setState({text})} />
-          <TextInput style = {styles.txt} placeholder = "Surname..." onChangeText={(text) => this.setState({text})} />
-          <TextInput style = {styles.txt} placeholder = "Create Username..." onChangeText={(text) => this.setState({text})} />
-          <TextInput secureTextEntry={true} style = {styles.txt} placeholder = "Create Password..." onChangeText={(text) => this.setState({text})} />
-          <TextInput secureTextEntry={true} style = {styles.txt} placeholder = "Re-enter Password..." onChangeText={(text) => this.setState({text})} />
+          <TextInput style = {styles.txt} keyboardType = 'email-address' placeholder = "Email..." onChangeText={(emailAddress) => this.setState({emailAddress})} />
+          <TextInput style = {styles.txt} placeholder = "First Name..." onChangeText={(firstName) => this.setState({firstName})} />
+          <TextInput style = {styles.txt} placeholder = "Surname..." onChangeText={(lastName) => this.setState({lastName})} />
+          <TextInput style = {styles.txt} placeholder = "Create Username..." onChangeText={(username) => this.setState({username})} />
+          <TextInput secureTextEntry={true} style = {styles.txt} placeholder = "Create Password..." onChangeText={(password) => this.setState({password})} />
+          <TextInput secureTextEntry={true} style = {styles.txt} placeholder = "Re-enter Password..." onChangeText={(password2) => this.setState({password2})} />
      
-          <Button onPress={this._onPressButton} title="Sign up" type='clear'/>
+          <Button onPress={this.register} title="Sign up" type='clear'/>
           <Button onPress={this._onPressButton} style = {styles.login} title="Already a user?"/>
         </View>
       </View>
     );
+  }
+  constructor(props) {
+    super(props);
+    this.state = {emailAddress: '', firstName: '', lastName: '', username: '', password: '', password2: ''}
+  }
+
+  register = () => {
+    fetch('http://192.168.1.214:3001/register', {
+      method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({
+            emailAddress: this.state.emailAddress,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            username: this.state.username,
+            password: this.state.password,
+            password2: this.state.password2
+          })
+    })
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.success == true) {
+        alert(('User created successfully'))
+      }
+      else {
+        alert(('Passwords do not match'))
+      }
+    })
+    .done();
   }
 }
 

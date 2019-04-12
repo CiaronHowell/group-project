@@ -16,16 +16,52 @@ export default class App extends React.Component {
       </View>
         <View style={styles.containerBody}>
 
-          <TextInput style = {styles.txt} placeholder = "Enter Username..." onChangeText={(text) => this.setState({text})} />
-          <TextInput secureTextEntry={true} style = {styles.txt} placeholder = "Enter Password..." onChangeText={(text) => this.setState({text})} />
+          <TextInput style = {styles.txt} placeholder = "Enter Username..." onChangeText={(username) => this.setState({username})} 
+            value={this.state.username}
+          />
+          <TextInput secureTextEntry={true} style = {styles.txt} placeholder = "Enter Password..." onChangeText={(password) => this.setState({password})} 
+            value ={this.state.password}
+          />
      
           <Button onPress={this._onPressButton} title="Forgotten Login details" type='clear'/>
-          <Button onPress={this._onPressButton} style = {styles.login} title="Login"/>
+          <Button onPress={this.login} style = {styles.login} title="Login"/>
         </View>
       </View>
     );
   }
+  constructor(props) {
+    super(props);
+    this.state = {username: '', password: ''}
+  }
+
+  login = () => {
+    fetch('http://192.168.1.214:3001/login', {
+        method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+            body: JSON.stringify({
+              username: this.state.username,
+              password: this.state.password,
+            })
+    })
+    .then((response) => response.json())
+    .then((res) => {
+        if(res.success == true && res.admin == true) {
+          alert(('Logging in as admin'))
+        }
+        else if(res.success == true && res.admin == false) {
+          alert(('Logging in as user'))
+        }
+        else {
+          alert(('Incorrect Username or Password'));
+        }
+    })
+    .done();
+  }
 }
+
 
 const styles = StyleSheet.create({
   containerHead:{
