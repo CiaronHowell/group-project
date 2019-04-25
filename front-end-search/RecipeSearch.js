@@ -58,7 +58,7 @@ export default class App extends React.Component<{}> {
     if (response.application_response_code.substr(0, 1) === '1') {
       this.props.navigator.push({
       	title: 'Results',
-      	component: SearchResults,
+      	component: RecipeSearch,
       	passProps: {listings: response.listings}
       });
     } else {
