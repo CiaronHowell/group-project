@@ -69,6 +69,7 @@ router.post('/login', function(req, res) {
             //If it finds one then we set the session of the user to logged in
             if (rows.length > 0) {
                 req.session.loggedin = true
+                req.session.user = login_name
                 if (rows[0].Is_Admin == 1) {
                     req.session.admin = true
                     res.send({'success': true, 'admin': true})
