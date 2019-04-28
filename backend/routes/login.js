@@ -61,6 +61,7 @@ router.post('/register', (req, res ) => {
 
 //Login function used to check username and password
 router.post('/login', function(req, res) {
+    console.log("Attempting to log user in")
     var login_name = req.body.username
     var login_password = req.body.password
     //Checks login and password are stored within the user details database

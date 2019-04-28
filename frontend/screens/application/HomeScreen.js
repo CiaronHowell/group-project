@@ -19,7 +19,7 @@ export default class App extends React.Component {
       <View style={styles.containerHead}>
         <Text style={styles.headTxt}>Yum!</Text>
         {/* TODO: Fix the position of the user button */}
-        <Button title="User" style={{justifyContent: 'flex-end'}} onPress={this._onPressButton} type='clear'/>
+        <Button title="User" style={{justifyContent: 'flex-end'}} onPress={this._userProfile} type='clear'/>
       </View>
       {/* TODO: Sort out the buttons for the cupboard and recipes */}
         <View style={styles.containerBody}>
@@ -42,6 +42,18 @@ export default class App extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
+
+  _userProfile = () => {
+    
+    fetch('http://192.168.1.214:3001/profile', {
+      method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+    })
+  }
+
 }
 
 const styles = StyleSheet.create({

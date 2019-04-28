@@ -46,7 +46,7 @@ class LoginScreen extends React.Component {
           {/* TODO: Sort out a forgotten login page */}
           <Button title="Forgotten Login details" onPress={this._onPressButton} type='clear'/>
           {/*TODO: Change the login button back to calling the login method*/}
-          <Button title="Login" onPress={this._skipLogin} style = {styles.login} />
+          <Button title="Login" onPress={this.login} style = {styles.login} />
         </View>
       </View>
     );
@@ -57,11 +57,6 @@ class LoginScreen extends React.Component {
     this.props.navigation.navigate('SignUp');
   };
 
-  _skipLogin = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
-  };
-
   constructor(props) {
     super(props);
     this.state = {username: '', password: ''}
@@ -69,7 +64,7 @@ class LoginScreen extends React.Component {
 
   // TODO: Comment this method
   login = () => {
-    fetch('http://192.168.1.214:3001/login', {
+    fetch('http://192.168.0.18:3001/login', {
         method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -84,9 +79,11 @@ class LoginScreen extends React.Component {
     .then((res) => {
         if(res.success == true && res.admin == true) {
           alert(('Logging in as admin'))
+          this.props.navigation.navigate('Home');
         }
         else if(res.success == true && res.admin == false) {
           alert(('Logging in as user'))
+          this.props.navigation.navigate('Home');
         }
         else {
           alert(('Incorrect Username or Password'));
@@ -129,7 +126,6 @@ class AuthLoadingScreen extends React.Component {
 // Creates a navigation stack specifically for the app
 const AppNav = createStackNavigator({
   Home: HomeScreen,
-  SignUp: SignUpScreen,
 });
 
 // Creates a navigation stack for a user that isn't authorised yet
