@@ -6,3 +6,6 @@ We are planning on creating a recipe app that will allow the user to input ingre
 
 # backend
 We are going to be using a NodeJS backend using several packages such as express & mysql,.
+
+
+Remember to do 'npm install' with backend and frontend folders
