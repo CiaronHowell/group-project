@@ -72,7 +72,12 @@ export default class SearchScreen extends React.Component {
       </View>
       );
   }
+
   _searchRecipes = () => {
+    let recipesFound = {
+      recipes: []
+    };
+
     fetch('http://192.168.0.18:3001/recipesearch', {
       method: 'POST',
         headers: {
@@ -91,12 +96,19 @@ export default class SearchScreen extends React.Component {
         isLoading: false,
         dataSource: res
       })
+
+      res.map(function(recipe) {
+        foundRecipes.recipes.push ({
+          // the various attributes. e.g.
+          // "recipeID": recipe.recipeID
+        })
+      })
+
+
     })
     .done();
   }
 }
-
-
 
 const styles = StyleSheet.create({
   containerHead:{
