@@ -23,12 +23,12 @@ export default class App extends React.Component {
       </View>
       {/* TODO: Sort out the buttons for the cupboard and recipes */}
         <View style={styles.containerBody}>
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToCupboard} activeOpacity={0.5}>
         <Text style={styles.txt}>My cupboard</Text>  
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
-        <Text style={styles.txt}>Recipes</Text>  
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToRecipeSearch} activeOpacity={0.5}>
+        <Text style={styles.txt}>Recipe Search</Text>  
         </TouchableOpacity>
 
           <Button title="Log Out" onPress={this._signOut} type='clear'/>
@@ -43,15 +43,20 @@ export default class App extends React.Component {
     this.props.navigation.navigate('Auth');
   };
 
+  _goToRecipeSearch = () => {
+    this.props.navigation.navigate('RecipeSearch')
+  }
+
+  _goToSavedRecipes = () => {
+    this.props.navigation.navigate('SavedRecipes')
+  }
+
+  _goToCupboard = () => {
+    this.props.navigation.navigate('Inventory')
+  }
+
   _userProfile = () => {
-    
-    fetch('http://192.168.1.214:3001/profile', {
-      method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-    })
+    this.props.navigation.navigate('Profile')
   }
 
 }

@@ -9,7 +9,6 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 export default class ForgottenUserDetails extends React.Component {
   _onPressButton(){
