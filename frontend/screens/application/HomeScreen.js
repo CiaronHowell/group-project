@@ -19,19 +19,19 @@ export default class App extends React.Component {
       <View style={styles.containerHead}>
         <Text style={styles.headTxt}>Yum!</Text>
         {/* TODO: Fix the position of the user button */}
-        <Button title="User" style={{justifyContent: 'flex-end'}} onPress={this._onPressButton} type='clear'/>
+        <Button title="User" style={{justifyContent: 'flex-end'}} onPress={this._userProfile} type='clear'/>
       </View>
       {/* TODO: Sort out the buttons for the cupboard and recipes */}
         <View style={styles.containerBody}>
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToCupboard} activeOpacity={0.5}>
         <Text style={styles.txt}>My cupboard</Text>  
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToRecipeSearch} activeOpacity={0.5}>
         <Text style={styles.txt}>Search recipes</Text>  
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToSavedRecipes} activeOpacity={0.5}>
         <Text style={styles.txt}>Saved recipes</Text>  
         </TouchableOpacity>
 
@@ -46,6 +46,23 @@ export default class App extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
+
+  _goToRecipeSearch = () => {
+    this.props.navigation.navigate('RecipeSearch')
+  }
+
+  _goToSavedRecipes = () => {
+    this.props.navigation.navigate('SavedRecipes')
+  }
+
+  _goToCupboard = () => {
+    this.props.navigation.navigate('Inventory')
+  }
+
+  _userProfile = () => {
+    this.props.navigation.navigate('Profile')
+  }
+
 }
 
 const styles = StyleSheet.create({

@@ -26,7 +26,7 @@ export default class SignUpScreen extends React.Component {
           <TextInput secureTextEntry={true} style = {styles.txt} placeholder = "Re-enter Password..." onChangeText={(password2) => this.setState({password2})} />
      
           <Button onPress={this.register} title="Sign up" type='clear'/>
-          <Button onPress={this._onPressButton} style = {styles.login} title="Already a user?"/>
+          <Button onPress={this._goToLogin} style = {styles.login} title="Already a user?"/>
         </View>
       </View>
     );
@@ -64,6 +64,10 @@ export default class SignUpScreen extends React.Component {
     })
     .done();
   }
+}
+
+_goToLogin = () => {
+  this.props.navigation.navigate('Auth');
 }
 
 const styles = StyleSheet.create({

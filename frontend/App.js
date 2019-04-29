@@ -14,6 +14,7 @@ import { createStackNavigator, createAppContainer, createSwitchNavigator } from 
 // Screen imports
 import SignUpScreen from './screens/authentication/SignUpScreen';
 import HomeScreen from './screens/application/HomeScreen';
+import ForgottenScreen from './screens/authentication/forgottenDetails';
 //import SearchScreen from './screens/application/SearchScreen';
 // end of screen imports
 
@@ -44,7 +45,7 @@ class LoginScreen extends React.Component {
      
           <Button title="Register!" onPress={this._goToSignUp} />
           {/* TODO: Sort out a forgotten login page */}
-          <Button title="Forgotten Login details" onPress={this._onPressButton} type='clear'/>
+          <Button title="Forgotten Login details" onPress={this._forgottenDetails} type='clear'/>
           {/*TODO: Change the login button back to calling the login method*/}
           <Button title="Login" onPress={this.login} style = {styles.login} />
         </View>
@@ -55,6 +56,18 @@ class LoginScreen extends React.Component {
   // This will change the screen to the signup page
   _goToSignUp = () => {
     this.props.navigation.navigate('SignUp');
+  };
+
+  _forgottenDetails = () => {
+    this.props.navigation.navigate('ForgottenDetails');
+  };
+
+  _storeUsername = async () => {
+    try {
+      await AsyncStorage.setItem(username, 'username');
+    } catch (error) {
+      // Error saving data
+    }
   };
 
   constructor(props) {
@@ -80,10 +93,12 @@ class LoginScreen extends React.Component {
         if(res.success == true && res.admin == true) {
           alert(('Logging in as admin'))
           this.props.navigation.navigate('Home');
+          _storeUsername;
         }
         else if(res.success == true && res.admin == false) {
           alert(('Logging in as user'))
           this.props.navigation.navigate('Home');
+          _storeUsername;
         }
         else {
           alert(('Incorrect Username or Password'));
@@ -132,6 +147,7 @@ const AppNav = createStackNavigator({
 const AuthNav = createStackNavigator({ 
   Login: LoginScreen, 
   SignUp: SignUpScreen,
+  ForgottenDetails: ForgottenScreen,
 });
 
 // Creating the application container for the navigation stacks
