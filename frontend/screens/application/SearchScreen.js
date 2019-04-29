@@ -14,10 +14,11 @@ import {Menu, MenuProvider, MenuOptions, MenuOption, MenuTrigger} from "react-na
 export default class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
-  }
 
-  _onSearchTextChanged() {
-    color = 'red';
+    this.state = {
+      isLoading: true,
+      dataSource: [],
+    };
   }
 
   render() {
@@ -33,12 +34,12 @@ export default class SearchScreen extends React.Component {
         <View style={styles.container}>
          <Text style={styles.txt}>Search for Recipe</Text>
         <View style={styles.searchDef}>
-          <TextInput style={styles.searchInput} onChangeText={(text) => this.setState({text})} placeholder='Search for Recipe'/>
-        <Button onPress={this._onSearchTextChanged} color='#48BBEC' title='Search'/>
+          <TextInput style={styles.searchInput} onChangeText={(searchText) => this.setState({searchText})} placeholder='Search for Recipe'/>
+        <Button onPress={this._searchRecipes} color='#48BBEC' title='Search'/>
         </View>
       
         <MenuProvider style={{ flexDirection: "column", padding: 60 }}>
-        <Menu onSelect={alert('You Clicked menu')}>
+        <Menu>
 
           <MenuTrigger>
           <Text style={styles.filterTxt}>Filter</Text>
@@ -71,7 +72,31 @@ export default class SearchScreen extends React.Component {
       </View>
       );
   }
+  _searchRecipes = () => {
+    fetch('http://192.168.0.18:3001/recipesearch', {
+      method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({
+            searchText: this.state.searchText,
+            
+          })
+    })
+    .then((response) => response.json())
+    .then((res) => {
+      alert('Searching Recipes')
+      this.setState({
+        isLoading: false,
+        dataSource: res
+      })
+    })
+    .done();
+  }
 }
+
+
 
 const styles = StyleSheet.create({
   containerHead:{

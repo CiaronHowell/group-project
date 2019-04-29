@@ -28,7 +28,7 @@ export default class App extends React.Component {
         <Text style={styles.txt}>My cupboard</Text>  
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToSearchRecipe} activeOpacity={0.5}>
         <Text style={styles.txt}>Search recipes</Text>  
         </TouchableOpacity>
 
@@ -47,6 +47,11 @@ export default class App extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
+
+  _goToSearchRecipe = () => {
+    this.props.navigation.navigate('App');
+    this.props.navigation.navigate('RecipeScreen');
+  }
 }
 
 const styles = StyleSheet.create({

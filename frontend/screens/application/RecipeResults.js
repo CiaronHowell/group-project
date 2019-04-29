@@ -33,7 +33,7 @@ class ListItem extends React.Component {
   }
 }
 
-export default class ResultsSearch extends Component<{}> {
+export default class ResultsSearch extends Component {
   _keyExtractor = (item, index) => index;
 
   _renderItem = ({item, index}) => (
