@@ -25,7 +25,21 @@ router.get('/recipe/:idRecipe', function(req, res) {
             res.end()
         }
         else {
-            res.json(rows)
+            res.json(results)
+        }
+    })
+})
+
+router.post('/recipesearch', function(req,res) {
+    console.log('Searching Recipes')
+    var searchText = req.body.searchText
+    getConnection().query('SELECT * FROM Recipe WHERE Recipe_Name LIKE ?', [searchText], function(err, results, fields) {
+        if (err) {
+            console.log('Returning search for recipes')
+            res.end()
+        }
+        else {
+            res.json(results)
         }
     })
 })

@@ -37,7 +37,7 @@ export default class SignUpScreen extends React.Component {
   }
 
   register = () => {
-    fetch('http://192.168.1.214:3001/register', {
+    fetch('http://192.168.0.18:3001/register', {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -56,6 +56,7 @@ export default class SignUpScreen extends React.Component {
     .then((res) => {
       if (res.success == true) {
         alert(('User created successfully'))
+        this.props.navigation.navigate('Login');
       }
       else {
         alert(('Passwords do not match'))
@@ -88,12 +89,12 @@ const styles = StyleSheet.create({
   },
 
   txt:{
-    padding: 20,
+    padding: 10,
     alignItems: 'center',
     width: '60%',
     borderColor: 'black',
     borderWidth: 1,
-    borderRadius: 50,
+    borderRadius: 40,
     margin: 10
 
   },

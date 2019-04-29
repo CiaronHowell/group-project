@@ -9,124 +9,56 @@ import {
   TextInput,
 } from 'react-native';
 import {Menu, MenuProvider, MenuOptions, MenuOption, MenuTrigger} from "react-native-popup-menu";
-//import RecipeSearch from './RecipeSearch';
 
-//DATABASE THING GOES HERE
-function urlForQueryAndPage(key, value, pageNumber) {
-  const data = {
-      recipe: 'uk',
-      pretty: '1',
-      encoding: 'json',
-      listing_type: 'buy',
-      action: 'search_listings',
-      page: pageNumber,
-  };
-  data[key] = value;
-
-  const querystring = Object.keys(data)
-    .map(key => key + '=' + encodeURIComponent(data[key]))
-    .join('&');
-
-  return 'https://api.nestoria.co.uk/api?' + querystring;
-}
-//
 
 export default class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
-    YellowBox.ignoreWarnings([
-      'Warning: isMounted(...) is deprecated', 'Module RCTImageLoader'
-    ]);
+
     this.state = {
-      searchString: '',
-      isLoading: false,
-      message: '',
+      isLoading: true,
+      dataSource: [],
     };
   }
 
-  _onSearchTextChanged = (event) => {
-    this.setState({ searchString: event.nativeEvent.text });
-  };
-
-  _executeQuery = (query) => {
-    console.log(query);
-    this.setState({ isLoading: true });
-    fetch(query)
-      .then(response => response.json())
-      .then(json => this._handleResponse(json.response))
-      .catch(error =>
-      	this.setState({
-      	  isLoading: false,
-      	  message: 'Something bad happened ' + error
-      }));
-  };
-
-  _handleResponse = (response) => {
-    this.setState({ isLoading: false , message: '' });
-    if (response.application_response_code.substr(0, 1) === '1') {
-      this.props.navigator.push({
-      	title: 'Results',
-      	component: SearchResults,
-      	passProps: {listings: response.listings}
-      });
-    } else {
-      this.setState({ message: 'Recipe not recognized.\n Please try again!'});
-    }
-  };
-
-  _onSearchPressed = () => {
-    const query = urlForQueryAndPage('recipe_name', this.state.searchString, 1);
-    this._executeQuery(query);
-  };
-
   render() {
-  	const spinner = this.state.isLoading ?
-      <ActivityIndicator size='large'/> : null;
-    return (
+    return(
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
+        <View style={{flex: 1, flexDirection:'row'}}>
         <Text style={styles.headTxt}>Yum!</Text>
-        <Button style={{justifyContent: 'flex-end'}} onPress={this._onPressButton} title="User" type='clear'/>
+        {/* TODO: Fix the position of the user button */}
+        <Button title="User"  style={styles.txtButton} onPress={this._onPressButton} type='clear'/>
+        </View>
       </View>
         <View style={styles.container}>
          <Text style={styles.txt}>Search for Recipe</Text>
         <View style={styles.searchDef}>
-          <TextInput
-            style={styles.searchInput}
-            value={this.state.searchString}
-            onChange={this._onSearchTextChanged}
-            placeholder='Search for Recipe'/>
-          <Button
-            onPress={this._onSearchPressed}
-            color='#48BBEC'
-            title='Search'
-          />
+          <TextInput style={styles.searchInput} onChangeText={(searchText) => this.setState({searchText})} placeholder='Search for Recipe'/>
+        <Button onPress={this._searchRecipes} color='#48BBEC' title='Search'/>
         </View>
-      <Image source={require('./Resources/yum.png')} style={styles.image}/>
-        {spinner}
-        <Text style={styles.txt}>{this.state.message}</Text>
       
         <MenuProvider style={{ flexDirection: "column", padding: 60 }}>
-        <Menu onSelect={value => alert(`You Clicked : ${value}`)}>
+        <Menu>
 
           <MenuTrigger>
           <Text style={styles.filterTxt}>Filter</Text>
           </MenuTrigger>
 
           <MenuOptions>
-            <MenuOption value={"Item1"}>
+            <MenuOption>
               <Text style={styles.txt}>Item1</Text>
             </MenuOption>
-            <MenuOption value={"Item2"}>
+            <MenuOption>
               <Text style={styles.txt}>Item2</Text>
             </MenuOption>
-            <MenuOption value={"Item3"}>
+            <MenuOption>
               <Text style={styles.txt}>Item3</Text>
             </MenuOption>
-            <MenuOption value={"Item4"}>
+            <MenuOption>
               <Text style={styles.txt}>Item4</Text>
             </MenuOption>
-            <MenuOption value={"Item5"}>
+            <MenuOption>
               <Text style={styles.txt}>Item5</Text>
             </MenuOption>
             <MenuOption value={3} disabled={true}>
@@ -139,6 +71,42 @@ export default class SearchScreen extends React.Component {
       </View>
       </View>
       );
+  }
+
+  _searchRecipes = () => {
+    let recipesFound = {
+      recipes: []
+    };
+
+    fetch('http://192.168.0.18:3001/recipesearch', {
+      method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({
+            searchText: this.state.searchText,
+            
+          })
+    })
+    .then((response) => response.json())
+    .then((res) => {
+      alert('Searching Recipes')
+      this.setState({
+        isLoading: false,
+        dataSource: res
+      })
+
+      res.map(function(recipe) {
+        foundRecipes.recipes.push ({
+          // the various attributes. e.g.
+          // "recipeID": recipe.recipeID
+        })
+      })
+
+
+    })
+    .done();
   }
 }
 
@@ -159,9 +127,16 @@ const styles = StyleSheet.create({
     marginTop: 65,
   },
   headTxt:{
+    flex:8,
+    alignSelf:'flex-end',
+    justifyContent:'flex-end',
     fontFamily: 'Cochin',
     fontSize: 50,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginLeft: 125
+  },
+  txtButton:{
+    flex:1,
   },
   txt:{
     fontSize: 20,
@@ -182,11 +157,6 @@ const styles = StyleSheet.create({
     borderColor: '#48BBEC',
     borderRadius: 8,
     color: '#48BBEC',
-  },
-  image: {
-    padding: 4,
-    width: 200,
-    height: 200,
   },
   filterTxt: {
     fontSize: 20,
