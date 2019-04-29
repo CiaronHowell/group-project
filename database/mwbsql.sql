@@ -204,6 +204,11 @@ CREATE TABLE IF NOT EXISTS `Yum`.`recipes_under_certain_calories` (`id` INT);
 CREATE TABLE IF NOT EXISTS `Yum`.`recipes_with_certain_dietry_information` (`idRecipe` INT, `Recipe_Name` INT, `Cooking_Time` INT, `Prep_Time` INT, `Total_Time` INT, `Calories` INT, `Rating` INT, `Instructions` INT, `Review` INT, `Dietry_Information` INT);
 
 -- -----------------------------------------------------
+-- Placeholder table for view `Yum`.`ingredients_needed_for_recipe`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Yum`.`ingredients_needed_for_recipe` (`idIngredients` INT, `Ingredient_Name` INT, `Food_Group` INT);
+
+-- -----------------------------------------------------
 -- View `Yum`.`ingredient_details`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Yum`.`ingredient_details`;
@@ -425,6 +430,27 @@ VIEW `recipes_with_certain_dietry_information` AS
         `recipe`
     WHERE
         (`recipe`.`Dietry_Information` = 'Milk');
+
+-- -----------------------------------------------------
+-- View `Yum`.`ingredients_needed_for_recipe`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Yum`.`ingredients_needed_for_recipe`;
+USE `Yum`;
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `ingredients_needed_for_recipe` AS
+    SELECT 
+        `ingredients`.`idIngredients` AS `idIngredients`,
+        `ingredients`.`Ingredient_Name` AS `Ingredient_Name`,
+        `ingredients`.`Food_Group` AS `Food_Group`
+    FROM
+        ((`ingredients`
+        JOIN `ingredients_needed` ON ((`ingredients`.`idIngredients` = `ingredients_needed`.`idIngredients`)))
+        JOIN `recipe` ON ((`recipe`.`idRecipe` = `ingredients_needed`.`idRec`)))
+    WHERE
+        (`recipe`.`Recipe_Name` = 'Chicken Alfredo');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

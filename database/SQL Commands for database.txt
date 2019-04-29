@@ -193,6 +193,23 @@ SELECT *
 FROM yum.user
 WHERE isAdmin = true;
 
+USE `yum`;
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `ingredients_needed_for_recipe` AS
+    SELECT 
+        `ingredients`.`idIngredients` AS `idIngredients`,
+        `ingredients`.`Ingredient_Name` AS `Ingredient_Name`,
+        `ingredients`.`Food_Group` AS `Food_Group`
+    FROM
+        ((`ingredients`
+        JOIN `ingredients_needed` ON ((`ingredients`.`idIngredients` = `ingredients_needed`.`idIngredients`)))
+        JOIN `recipe` ON ((`recipe`.`idRecipe` = `ingredients_needed`.`idRec`)))
+    WHERE
+        (`recipe`.`Recipe_Name` = 'Chicken Alfredo')
+
 //does not work properly
 CREATE VIEW `ingredients_missing` AS
 SELECT ingredients.*
