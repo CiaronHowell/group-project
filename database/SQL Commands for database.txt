@@ -92,8 +92,8 @@ CREATE TABLE IF NOT EXISTS `Yum`.`User` (
 ENGINE = InnoDB
 
 USE `yum`;
-CREATE OR REPLACE VIEW `
-SELECT * FROM yum.admin_details;
+CREATE OR REPLACE VIEW `admin_details` AS
+SELECT * FROM yum.user WHERE isAdmin = true;
 
 USE `yum`;
 CREATE  OR REPLACE VIEW `ingredient_details` AS
@@ -129,21 +129,57 @@ SELECT * FROM yum.recipe WHERE Cooking_Time < 90;
 
 USE `yum`;
 CREATE  OR REPLACE VIEW `recipes_with_certain_ingredients` AS
-SELECT recipe.*
-FROM Recipe INNER JOIN ingredients ON recipe.idRecipe = ingredients.idIngredients
-WHERE ingredients.Ingredient_Name = "Chicken";
+    SELECT 
+        `recipe`.`idRecipe` AS `idRecipe`,
+        `recipe`.`Recipe_Name` AS `Recipe_Name`,
+        `recipe`.`Cooking_Time` AS `Cooking_Time`,
+        `recipe`.`Prep_Time` AS `Prep_Time`,
+        `recipe`.`Total_Time` AS `Total_Time`,
+        `recipe`.`Calories` AS `Calories`,
+        `recipe`.`Rating` AS `Rating`,
+        `recipe`.`Instructions` AS `Instructions`,
+        `recipe`.`Review` AS `Review`,
+        `recipe`.`Dietry_Information` AS `Dietry_Information`
+    FROM
+        ((`recipe`
+        JOIN `ingredients_needed` ON ((`recipe`.`idRecipe` = `ingredients_needed`.`idRec`)))
+        JOIN `ingredients` ON ((`ingredients_needed`.`idIngredients` = `ingredients`.`idIngredients`)))
+    WHERE
+        (`ingredients`.`Ingredient_Name` = 'Chicken Breast')
 
 USE `yum`;
 CREATE  OR REPLACE VIEW `users_inventory` AS
-SELECT ingredients.*
-FROM yum.ingredients INNER JOIN yum.user ON ingredients.idIngredients = yum.user.idUser
-WHERE yum.user.idUser = 1;
+VIEW `users_inventory_new` AS
+    SELECT DISTINCT
+        `ingredients`.`idIngredients` AS `idIngredients`,
+        `ingredients`.`Ingredient_Name` AS `Ingredient_Name`,
+        `ingredients`.`Food_Group` AS `Food_Group`
+    FROM
+        ((`ingredients`
+        JOIN `inventory` ON ((`ingredients`.`idIngredients` = `inventory`.`idIngredient`)))
+        JOIN `user` ON ((`user`.`idUser` = `inventory`.`idUse`)))
+    WHERE
+        (`user`.`idUser` = 2)
 
 USE `yum`;
 CREATE  OR REPLACE VIEW `users_saved_recipes` AS
-SELECT recipe.*
-FROM recipe INNER JOIN yum.user ON yum.recipe.idRecipe = yum.user.idUser
-WHERE idUser = 1;
+    SELECT DISTINCT
+        `recipe`.`idRecipe` AS `idRecipe`,
+        `recipe`.`Recipe_Name` AS `Recipe_Name`,
+        `recipe`.`Cooking_Time` AS `Cooking_Time`,
+        `recipe`.`Prep_Time` AS `Prep_Time`,
+        `recipe`.`Total_Time` AS `Total_Time`,
+        `recipe`.`Calories` AS `Calories`,
+        `recipe`.`Rating` AS `Rating`,
+        `recipe`.`Instructions` AS `Instructions`,
+        `recipe`.`Review` AS `Review`,
+        `recipe`.`Dietry_Information` AS `Dietry_Information`
+    FROM
+        ((`recipe`
+        JOIN `saved_recipes` ON ((`recipe`.`idRecipe` = `saved_recipes`.`idRecipe`)))
+        JOIN `user` ON ((`saved_recipes`.`idUser` = `user`.`idUser`)))
+    WHERE
+        (`user`.`idUser` = 1)
 
 USE `yum`;
 CREATE  OR REPLACE VIEW `user_forgotten_username_password` AS
@@ -153,9 +189,9 @@ WHERE idUser = 1;
 
 USE `yum`;
 CREATE  OR REPLACE VIEW `admin_forgotten_username_passowrd` AS
-SELECT Admin_Username, Admin_Password
-FROM yum.admin
-WHERE idAdmin = 1;
+SELECT *
+FROM yum.user
+WHERE isAdmin = true;
 
 //does not work properly
 CREATE VIEW `ingredients_missing` AS

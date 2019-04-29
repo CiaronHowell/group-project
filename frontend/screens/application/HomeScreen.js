@@ -19,7 +19,7 @@ export default class App extends React.Component {
       <View style={styles.containerHead}>
         <Text style={styles.headTxt}>Yum!</Text>
         {/* TODO: Fix the position of the user button */}
-        <Button title="User" style={{justifyContent: 'flex-end'}} onPress={this._userProfile} type='clear'/>
+        <Button title="User" style={{justifyContent: 'flex-end'}} onPress={this._onPressButton} type='clear'/>
       </View>
       {/* TODO: Sort out the buttons for the cupboard and recipes */}
         <View style={styles.containerBody}>
@@ -27,8 +27,12 @@ export default class App extends React.Component {
         <Text style={styles.txt}>My cupboard</Text>  
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToRecipeSearch} activeOpacity={0.5}>
-        <Text style={styles.txt}>Recipe Search</Text>  
+        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <Text style={styles.txt}>Search recipes</Text>  
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <Text style={styles.txt}>Saved recipes</Text>  
         </TouchableOpacity>
 
           <Button title="Log Out" onPress={this._signOut} type='clear'/>
@@ -88,8 +92,8 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     backgroundColor: '#00ea13',
-    height: 120,
+    height: 100,
     borderRadius: 25,
-    margin: 25
+    margin: 20
   }
 });
