@@ -7,10 +7,10 @@ module.exports = router
 
 const pool = mysql.createPool ({
     connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: 'OhHelloThere',
-    database: 'yum-users'
+    host: 'ciaronhowell.co.uk',
+    user: 'groupproject',
+    password: 'group45',
+    database: 'yum'
 })
 
 function getConnection() {
