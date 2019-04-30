@@ -37,7 +37,7 @@ export default class SignUpScreen extends React.Component {
   }
 
   register = () => {
-    fetch('http://192.168.0.18:3001/register', {
+    fetch('http://localhost:3001/register', {
       method: 'POST',
         headers: {
           'Accept': 'application/json',

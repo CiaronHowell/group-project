@@ -17,10 +17,10 @@ router.use(session({
 //Creates a pool connection to mySQL database
 const pool = mysql.createPool ({
     connectionLimit: 10,
-    host: 'localhost',
-    user: 'root',
-    password: 'OhHelloThere',
-    database: 'yum-users'
+    host: 'ciaronhowell.co.uk',
+    user: 'groupproject',
+    password: 'group45',
+    database: 'yum'
 })
 
 //Function to access the connection to the database
@@ -42,7 +42,7 @@ router.post('/register', (req, res ) => {
     const is_admin = 0
     if (login_password == login_password2) {
         //This gets the connection and does an INSERT sql query to the selected database 
-        getConnection().query("INSERT INTO user_details (login_name, login_password, first_name, last_name, email_address, is_admin) VALUES (?, ?, ?, ?, ?, ?)", 
+        getConnection().query("INSERT INTO user (Username, User_password, First_Name, Surname, Email_Address, isAdmin) VALUES (?, ?, ?, ?, ?, ?)", 
         [login_name, login_password, first_name, last_name, email_address, is_admin], (err, results, fields) => {
             //If we get an error we return this to the server 
             if (err) {
@@ -66,7 +66,7 @@ router.post('/login', function(req, res) {
     var login_password = req.body.password
     //Checks login and password are stored within the user details database
     if (login_name && login_password) {
-        getConnection().query('SELECT * FROM user_details WHERE login_name = ? AND login_password = ?', [login_name, login_password], function(err, rows, fields) {
+        getConnection().query('SELECT * FROM user_details WHERE Username = ? AND User_password = ?', [login_name, login_password], function(err, rows, fields) {
             //If it finds one then we set the session of the user to logged in
             if (rows.length > 0) {
                 req.session.loggedin = true
