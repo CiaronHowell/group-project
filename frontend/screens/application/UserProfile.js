@@ -10,20 +10,19 @@ import {
   TextInput,
 } from 'react-native';
 
-export default class ForgottenUserDetails extends React.Component {
+export default class UserProfile extends React.Component {
     constructor(props) {
         super(props);
     
         this.state = {
           isLoading: true,
-          dataSource: [],
-          userData: {}
+          dataSource: {},
+          UsernameTxt: '',
+          FirstNameTxt: '',
+          SurnameTxt: '',
+          EmailAddressTxt: '',
         };
       }
-
-  _onPressButton(){
-    color = 'red'
-  }
 
   render() {
 
@@ -34,50 +33,41 @@ export default class ForgottenUserDetails extends React.Component {
         <Text style={styles.headTxt}>Yum!</Text>
       </View>
         <View style={styles.containerBody}>
-            <Text style={styles.txt}>Username: {this.state.userData.Username}</Text>
-            <Text style={styles.txt}>First Name: {this.state.userData.First_Name}</Text>
-            <Text style={styles.txt}>Surname: {this.state.userData.Surname}</Text>
-            <Text style={styles.txt}>Email Address: {this.state.userData.Email_Address}</Text>
-            <Button title="Get Info" onPress={this._searchRecipes} type='clear'/>
+            <Text style={styles.txt}>Username: {this.state.UsernameTxt} </Text>
+            <Text style={styles.txt}>First Name: {this.state.FirstNameTxt}</Text>
+            <Text style={styles.txt}>Surname: {this.state.SurnameTxt}</Text>
+            <Text style={styles.txt}>Email Address: {this.state.EmailAddressTxt}</Text>
+            <Button title="Get Info" onPress={this._loadProfile} type='clear'/>
         </View>
       </View>
     );
   }
 
-  _searchRecipes = async () => {
+  _loadProfile = async () => {
+    var username = ""
     try {
-        const username = await AsyncStorage.getItem('username');
+        username = await AsyncStorage.getItem('username');
         if (username !== null) {
           console.log(username);
         }
       } catch (error) {
       }
     fetch(`http://192.168.0.18:3001/profile/${username}`, {
-      method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
     })
     .then((response) => response.json())
     .then((res) => {
       this.setState({
         isLoading: false,
-        dataSource: res
+        dataSource: res,
+        UsernameTxt: res[0].Username,
+        FirstNameTxt: res[0].First_Name,
+        SurnameTxt: res[0].Surname,
+        EmailAddressTxt: res[0].Email_Address,
       })
-
-      res.map(function(profile) {
-          this.setState({ 
-            userData: {
-                Username: profile.Username,
-                First_Name: profile.First_Name,
-                Surname: profile.Surname,
-                Email_Address: profile.Email_Address,
-            }
-          });
-      })
-
-
     })
     .done();
   }
