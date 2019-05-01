@@ -42,8 +42,8 @@ router.post('/register', (req, res ) => {
     const is_admin = 0
     if (login_password == login_password2) {
         //This gets the connection and does an INSERT sql query to the selected database 
-        getConnection().query("INSERT INTO user (Username, User_password, First_Name, Surname, Email_Address, isAdmin) VALUES (?, ?, ?, ?, ?, ?)", 
-        [login_name, login_password, first_name, last_name, email_address, is_admin], (err, results, fields) => {
+        getConnection().query("INSERT INTO user (Username, User_password, First_Name, Surname, isAdmin, Email_Address) VALUES (?, ?, ?, ?, ?, ?)", 
+        [login_name, login_password, first_name, last_name, isAdmin, email_address], (err, results, fields) => {
             //If we get an error we return this to the server 
             if (err) {
                 console.log("Failed to add new user" + err)
