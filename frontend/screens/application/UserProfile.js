@@ -38,6 +38,7 @@ export default class ForgottenUserDetails extends React.Component {
             <Text style={styles.txt}>First Name: {this.state.userData.First_Name}</Text>
             <Text style={styles.txt}>Surname: {this.state.userData.Surname}</Text>
             <Text style={styles.txt}>Email Address: {this.state.userData.Email_Address}</Text>
+            <Button title="Get Info" onPress={this._searchRecipes} type='clear'/>
         </View>
       </View>
     );
@@ -51,7 +52,7 @@ export default class ForgottenUserDetails extends React.Component {
         }
       } catch (error) {
       }
-    fetch(`http://localhost:3001/profile/${username}`, {
+    fetch(`http://192.168.0.18:3001/profile/${username}`, {
       method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -60,7 +61,6 @@ export default class ForgottenUserDetails extends React.Component {
     })
     .then((response) => response.json())
     .then((res) => {
-      alert('Pulling user profile')
       this.setState({
         isLoading: false,
         dataSource: res
@@ -69,10 +69,10 @@ export default class ForgottenUserDetails extends React.Component {
       res.map(function(profile) {
           this.setState({ 
             userData: {
-                "Username": profile.Username,
-                "FirstName": profile.First_Name,
-                "Surname": profile.Surname,
-                "EmailAddress": profile.Email_Address,
+                Username: profile.Username,
+                First_Name: profile.First_Name,
+                Surname: profile.Surname,
+                Email_Address: profile.Email_Address,
             }
           });
       })

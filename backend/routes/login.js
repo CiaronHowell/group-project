@@ -66,7 +66,7 @@ router.post('/login', function(req, res) {
     var login_password = req.body.password
     //Checks login and password are stored within the user details database
     if (login_name && login_password) {
-        getConnection().query('SELECT * FROM user_details WHERE Username = ? AND User_password = ?', [login_name, login_password], function(err, rows, fields) {
+        getConnection().query('SELECT * FROM user WHERE Username = ? AND User_password = ?', [login_name, login_password], function(err, rows, fields) {
             //If it finds one then we set the session of the user to logged in
             if (rows.length > 0) {
                 req.session.loggedin = true

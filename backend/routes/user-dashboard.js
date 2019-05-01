@@ -20,7 +20,7 @@ function getConnection() {
 //Profile for each individual user, we query the database then pull information regarding the user's id
 router.get('/profile/:Username', function(req, res) {
     console.log("Fetching user with id: " + req.params.Username)
-    getConnection().query('SELECT * FROM user_details WHERE Username = ?', [req.params.Username], function(err, results, fields) {
+    getConnection().query('SELECT * FROM user WHERE Username = ?', [req.params.Username], function(err, results, fields) {
         if (err) {
             console.log('Failed to find user profile' + err)
             res.end()

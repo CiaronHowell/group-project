@@ -70,7 +70,7 @@ class LoginScreen extends React.Component {
 
   // TODO: Comment this method
   login = async () => {
-    fetch('http://localhost:3001/login', {
+    fetch('http://192.168.0.18:3001/login', {
         method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -87,7 +87,7 @@ class LoginScreen extends React.Component {
           alert(('Logging in as admin'))
           this.props.navigation.navigate('Home');
           try {
-            await AsyncStorage.setItem('username', this.state.username);
+            AsyncStorage.setItem('username', this.state.username);
           } catch (error) {
             console.log(error.message);
           }
@@ -96,7 +96,7 @@ class LoginScreen extends React.Component {
           alert(('Logging in as user'))
           this.props.navigation.navigate('Home');
           try {
-            await AsyncStorage.setItem('username', this.state.username);
+            AsyncStorage.setItem('username', this.state.username);
           } catch (error) {
             console.log(error.message);
           }

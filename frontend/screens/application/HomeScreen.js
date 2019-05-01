@@ -54,7 +54,7 @@ export default class App extends React.Component {
   }
 
   _goToUserProfile = () => {
-    this.props.navigation.navigate('UserScreen');
+    this.props.navigation.navigate('UserProfile');
   }
 }
 
