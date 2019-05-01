@@ -34,7 +34,7 @@ router.post('/register', (req, res ) => {
     console.log("Creating a new user")
     //Creates constants of the different parameters taken from the register frontend
     var email_address = req.body.emailAddress
-    var first_name = req.body.firstNamegit
+    var first_name = req.body.firstName
     var last_name = req.body.lastName
     var login_name = req.body.username
     var login_password = req.body.password

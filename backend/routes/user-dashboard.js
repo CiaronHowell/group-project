@@ -18,7 +18,7 @@ function getConnection() {
 }
 
 //Profile for each individual user, we query the database then pull information regarding the user's id
-router.get('/profile/:login_name', function(req, res) {
+router.get('/profile/:Username', function(req, res) {
     console.log("Fetching user with id: " + req.params.Username)
     getConnection().query('SELECT * FROM user_details WHERE Username = ?', [req.params.Username], function(err, results, fields) {
         if (err) {

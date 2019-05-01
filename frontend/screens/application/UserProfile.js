@@ -17,6 +17,7 @@ export default class ForgottenUserDetails extends React.Component {
         this.state = {
           isLoading: true,
           dataSource: [],
+          userData: {}
         };
       }
 
@@ -33,24 +34,29 @@ export default class ForgottenUserDetails extends React.Component {
         <Text style={styles.headTxt}>Yum!</Text>
       </View>
         <View style={styles.containerBody}>
-            <Text style={styles.txt}>"Username"</Text>
-            <Text style={styles.txt}>"FirstName"</Text>
-            <Text style={styles.txt}>"Surname"</Text>
-            <Text style={styles.txt}>"EmailAddress</Text>
+            <Text style={styles.txt}>Username: {this.state.userData.Username}</Text>
+            <Text style={styles.txt}>First Name: {this.state.userData.First_Name}</Text>
+            <Text style={styles.txt}>Surname: {this.state.userData.Surname}</Text>
+            <Text style={styles.txt}>Email Address: {this.state.userData.Email_Address}</Text>
         </View>
       </View>
     );
   }
 
-  _searchRecipes = () => {
-    fetch('http://localhost:3001/profile/Scoggins', {
+  _searchRecipes = async () => {
+    try {
+        const username = await AsyncStorage.getItem('username');
+        if (username !== null) {
+          console.log(username);
+        }
+      } catch (error) {
+      }
+    fetch(`http://localhost:3001/profile/${username}`, {
       method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-          body: JSON.stringify({
-          })
     })
     .then((response) => response.json())
     .then((res) => {
@@ -61,14 +67,14 @@ export default class ForgottenUserDetails extends React.Component {
       })
 
       res.map(function(profile) {
-        fetchProfile.dataSource.push ({
-          // the various attributes. e.g.
-          // "recipeID": recipe.recipeID
-          "Username": profile.Username,
-          "FirstName": profile.First_Name,
-          "Surname": profile.Surname,
-          "EmailAddress": profile.EmailAddress,
-        })
+          this.setState({ 
+            userData: {
+                "Username": profile.Username,
+                "FirstName": profile.First_Name,
+                "Surname": profile.Surname,
+                "EmailAddress": profile.Email_Address,
+            }
+          });
       })
 
 
@@ -76,8 +82,6 @@ export default class ForgottenUserDetails extends React.Component {
     .done();
   }
 }
-
-
 
 const styles = StyleSheet.create({
   containerHead:{
@@ -109,8 +113,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     margin: 10
-
   }
-  
-
 });
