@@ -17,6 +17,7 @@ import HomeScreen from './screens/application/HomeScreen';
 import ForgottenScreen from './screens/authentication/forgottenDetails';
 import RecipeResultScreen from './screens/application/RecipeResults';
 import SearchScreen from './screens/application/SearchScreen';
+import UserScreen from './screens/application/UserProfile';
 // end of screen imports
 class LoginScreen extends React.Component {
   // Adds a title to the top of the screen
@@ -134,6 +135,7 @@ const AppNav = createStackNavigator({
   Home: HomeScreen,
   RecipeResult: RecipeResultScreen,
   RecipeScreen: SearchScreen,
+  UserProfile: UserScreen,
 });
 
 // Creates a navigation stack for a user that isn't authorised yet

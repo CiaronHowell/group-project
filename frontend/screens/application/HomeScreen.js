@@ -19,7 +19,7 @@ export default class App extends React.Component {
       <View style={styles.containerHead}>
         <View style={{flex: 1, flexDirection:'row'}}>
         <Text style={styles.headTxt}>Yum!</Text>
-        <Button title="User"  style={styles.txtButton} onPress={this._onPressButton} type='clear'/>
+        <Button title="User"  style={styles.txtButton} onPress={this._goToUserProfile} type='clear'/>
         </View>
       </View>
       {/* TODO: Sort out the buttons for the cupboard and recipes */}
@@ -51,6 +51,10 @@ export default class App extends React.Component {
   _goToSearchRecipe = () => {
     this.props.navigation.navigate('App');
     this.props.navigation.navigate('RecipeScreen');
+  }
+
+  _goToUserProfile = () => {
+    this.props.navigation.navigate('UserScreen');
   }
 }
 
