@@ -68,10 +68,12 @@ class LoginScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {username: '', password: ''}
+    this.state = {
+      username: '', 
+      password: '',
+    }
   }
 
-  // TODO: Comment this method
   login = async () => {
     fetch('http://192.168.0.18:3001/login', {
         method: 'POST',
@@ -88,6 +90,11 @@ class LoginScreen extends React.Component {
     .then((res) => {
         if(res.success == true && res.admin == true) {
           alert(('Logging in as admin'))
+          try {
+            AsyncStorage.setItem('isAdmin', true);
+          } catch (error) {
+            console.log(error.message);
+          }
           this.props.navigation.navigate('Home');
           try {
             AsyncStorage.setItem('username', this.state.username);
@@ -99,6 +106,11 @@ class LoginScreen extends React.Component {
         else if(res.success == true && res.admin == false) {
           alert(('Logging in as user'))
           this.props.navigation.navigate('Home');
+          try {
+            AsyncStorage.setItem('isAdmin', false);
+          } catch (error) {
+            console.log(error.message);
+          }
           try {
             AsyncStorage.setItem('username', this.state.username);
             this._getUserID();

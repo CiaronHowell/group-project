@@ -71,7 +71,7 @@ router.post('/login', function(req, res) {
             if (rows.length > 0) {
                 req.session.loggedin = true
                 req.session.user = login_name
-                if (rows[0].Is_Admin == 1) {
+                if (rows[0].isAdmin == 1) {
                     req.session.admin = true
                     res.send({'success': true, 'admin': true})
                 }

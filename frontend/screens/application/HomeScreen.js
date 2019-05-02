@@ -9,15 +9,35 @@ import {
 } from 'react-native';
 
 export default class App extends React.Component {
-  _onPressButton(){
-    color = 'red'
+  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isAdmin: false
+    };
   }
 
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('isAdmin');
+      this.setState({
+        isAdmin: value
+      })
+      if (value !== null) {
+      }
+    } catch (error) {
+    }
+  };
+
   render() {
-    return (
+    {this._retrieveData()}
+    if (this.state.isAdmin) {
+      return (
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
         <View style={{flex: 1, flexDirection:'row'}}>
+        <Button title="Admin" stlye={styles.txtButton} onPress={this._goToAdminPage} type='clear'/>
         <Text style={styles.headTxt}>Yum!</Text>
         <Button title="User"  style={styles.txtButton} onPress={this._goToUserProfile} type='clear'/>
         </View>
@@ -41,6 +61,35 @@ export default class App extends React.Component {
       </View>
     );
   }
+  if (!this.state.isAdmin) {
+    return (
+    <View style={{flex: 1}}>
+    <View style={styles.containerHead}>
+      <View style={{flex: 1, flexDirection:'row'}}>
+      <Text style={styles.headTxt}>Yum!</Text>
+      <Button title="User"  style={styles.txtButton} onPress={this._goToUserProfile} type='clear'/>
+      </View>
+    </View>
+    {/* TODO: Sort out the buttons for the cupboard and recipes */}
+      <View style={styles.containerBody}>
+      <TouchableOpacity style={styles.buttonStyle} onPress={this._goToCupboard} activeOpacity={0.5}>
+      <Text style={styles.txt}>My cupboard</Text>  
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.buttonStyle} onPress={this._goToSearchRecipe} activeOpacity={0.5}>
+      <Text style={styles.txt}>Search recipes</Text>  
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.buttonStyle} onPress={this._goToSavedRecipe} activeOpacity={0.5}>
+      <Text style={styles.txt}>Saved recipes</Text>  
+      </TouchableOpacity>
+
+        <Button title="Log Out" onPress={this._signOut} type='clear'/>
+      </View>
+    </View>
+  );
+}
+}
   
   // clears the async storage to revert the users authentication 
   _signOut = async () => {
