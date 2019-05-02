@@ -120,7 +120,7 @@ export default class SavedRecipes extends React.Component {
   fetchRecipes = async () => {
     let idUser = await AsyncStorage.getItem('idUser');
     console.log(idUser)
-    fetch(`http://localhost:3001/saved_recipes/${idUser}`, {
+    fetch(`http://192.168.0.18:3001/saved_recipes/${idUser}`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',

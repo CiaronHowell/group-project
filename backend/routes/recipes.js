@@ -58,3 +58,17 @@ router.post('/ingredients/:idRecipe', function(req, res) {
         }
     })
 })
+
+router.post('/search_ingredients', function(req,res) {
+    var searchText = ('%' + req.body.searchText + '%')
+    getConnection().query('SELECT * FROM ingredients WHERE Ingredient_Name LIKE ?', [searchText], function(err, results, fields) {
+        if (err) {
+            console.log('Failed returning search for ingredients' + err)
+            res.end()
+        }
+        else {
+            console.log('Fetching Ingredients' + searchText)
+            res.json(results)
+        }
+    })
+})

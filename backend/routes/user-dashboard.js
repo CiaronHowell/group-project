@@ -31,14 +31,15 @@ router.get('/profile/:Username', function(req, res) {
 })
 
 //Inventory of each user
-router.get('/inventory/:user_id', function(req, res) {
+router.post('/inventory/:idUser', function(req, res) {
     console.log('Fetching inventory of the currently logged in user')
-    getConneciton.query('SELECT * FROM inventory WHERE user_id = ?', [req.params.users_id], function(err, results, fields) {
+    getConnection().query('SELECT inventory.idUse, ingredients.* FROM inventory,ingredients WHERE inventory.idUse = ? AND ingredients.idIngredients = inventory.idIngredient', [req.params.idUser], function(err, results, fields) {
         if (err) {
             console.log('Failed to find user inventory')
             res.end()
         }
         else {
+            console.log('Retrieved inventory')
             res.json(results)
         }
     })
@@ -46,13 +47,29 @@ router.get('/inventory/:user_id', function(req, res) {
 
 router.post('/add_ingredient', function(req, res) {
     console.log('Saving Ingredient')
-    getConnection().query('INSERT INTO inventory (idUser, inventory.idIngredient) VALUES (?, ?)', [req.body.idUser, req.body.idIngredient], function(err, results, fields) {
+    getConnection().query('INSERT INTO inventory (idUse, inventory.idIngredient) VALUES (?, ?)', [req.body.idUser, req.body.idIngredient], function(err, results, fields) {
         if (err) {
             console.log('Failed to save ingredient' + err)
             res.send({'success': false})
             res.end()
         }
         else {
+            console.log('Saved Successfully')
+            res.send({'success': true})
+        }
+    })
+})
+
+router.post('/delete_ingredient', function(req, res) {
+    console.log('Delete Ingredient')
+    getConnection().query('DELETE FROM inventory WHERE idUse = ? AND idIngredient = ?', [req.body.idUser, req.body.idIngredient], function(err, results, fields) {
+        if (err) {
+            console.log('Failed to delete ingredient' + err)
+            res.send({'success': false})
+            res.end()
+        }
+        else {
+            console.log('Deleted successfully')
             res.send({'success': true})
         }
     })

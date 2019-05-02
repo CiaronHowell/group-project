@@ -49,8 +49,6 @@ export default class SearchScreen extends React.Component {
       <View style={styles.containerHead}>
         <View style={{flex: 1, flexDirection:'row'}}>
         <Text style={styles.headTxt}>Yum!</Text>
-        {/* TODO: Fix the position of the user button */}
-        <Button title="User"  style={styles.txtButton} onPress={this._goToUserProfile} type='clear'/>
         </View>
       </View>
         <View style={styles.containerBody}>
@@ -98,10 +96,10 @@ export default class SearchScreen extends React.Component {
     if (this.state.viewingRecipe) {
       return (
         <View style={{flex: 1}}>
-      <View style={styles.containerHead}>
+      <ScrollView>
+        <View style={styles.containerHead}>
         <Text style={styles.headTxt}>Yum!</Text>
       </View>
-      <ScrollView>
         <View style={styles.containerBody}>
           <Text style = {styles.titleTxt}>{this.state.recipeInfo[0].Recipe_Name}</Text>
           <Text style = {styles.recipeTxt}>Cooking Time: {this.state.recipeInfo[0].Cooking_Time}</Text>
@@ -312,13 +310,11 @@ const styles = StyleSheet.create({
     marginTop: 65,
   },
   headTxt:{
-    flex:8,
-    alignSelf:'flex-end',
-    justifyContent:'flex-end',
+    alignSelf:'center',
+    justifyContent:'center',
     fontFamily: 'Cochin',
     fontSize: 50,
     fontWeight: 'bold',
-    marginLeft: 125
   },
   txtButton:{
     flex:1,
