@@ -92,13 +92,12 @@ router.post('/login', function(req, res) {
 });
 
 //Home page which only displays if user is logged in
-router.get('/home', function(req, res) {
+router.post('/home/:Username', function(req, res) {
     //Allows them to view the home page if they are logged in
-    if (req.session.loggedin) {
-        res.send('Welcome to the Yum! app')
-    }
-    else {
-        res.send('Login to view this page')
-    }
-    res.end()
-})
+    getConnection().query('SELECT * FROM user WHERE Username = ?', [Username], function(err, rows, fields) {
+        if (err) {
+            console.log("Failed to retrieve user" + err)
+        }
+        res.json(rows)
+    })
+});

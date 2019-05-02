@@ -24,7 +24,7 @@ export default class App extends React.Component {
       </View>
       {/* TODO: Sort out the buttons for the cupboard and recipes */}
         <View style={styles.containerBody}>
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToCupboardPage} activeOpacity={0.5}>
         <Text style={styles.txt}>My cupboard</Text>  
         </TouchableOpacity>
 
@@ -32,7 +32,7 @@ export default class App extends React.Component {
         <Text style={styles.txt}>Search recipes</Text>  
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToSavedRecipe} activeOpacity={0.5}>
         <Text style={styles.txt}>Saved recipes</Text>  
         </TouchableOpacity>
 
@@ -48,9 +48,16 @@ export default class App extends React.Component {
     this.props.navigation.navigate('Auth');
   };
 
+  _goToCupboardPage = () => {
+    this.props.navigation.navigate('CupboardPage');
+  }
+
   _goToSearchRecipe = () => {
-    this.props.navigation.navigate('App');
     this.props.navigation.navigate('RecipeScreen');
+  }
+
+  _goToSavedRecipe = () => {
+    this.props.navigation.navigate('SavedRecipes');
   }
 
   _goToUserProfile = () => {
