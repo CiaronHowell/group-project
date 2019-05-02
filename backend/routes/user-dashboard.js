@@ -44,11 +44,25 @@ router.get('/inventory/:user_id', function(req, res) {
     })
 })
 
+router.post('/add_ingredient', function(req, res) {
+    console.log('Saving Ingredient')
+    getConnection().query('INSERT INTO inventory (idUser, inventory.idIngredient) VALUES (?, ?)', [req.body.idUser, req.body.idIngredient], function(err, results, fields) {
+        if (err) {
+            console.log('Failed to save ingredient' + err)
+            res.send({'success': false})
+            res.end()
+        }
+        else {
+            res.send({'success': true})
+        }
+    })
+})
+
 router.post('/save_recipe', function(req, res) {
     console.log('Saving Recipe')
-    getConnection.query('INSERT INTO user (idUser, idRecipe) VALUES (?, ?)', [req.body.idUser, req.body.idRecipe], function(err, results, fields) {
+    getConnection().query('INSERT INTO saved_recipes (idUser, saved_recipes.idRecipe) VALUES (?, ?)', [req.body.idUser, req.body.idRecipe], function(err, results, fields) {
         if (err) {
-            console.log('Failed to insert save recipe')
+            console.log('Failed to save recipe' + err)
             res.send({'success': false})
             res.end()
         }
@@ -61,6 +75,7 @@ router.post('/save_recipe', function(req, res) {
 //Saved recipes of each user
 router.post('/saved_recipes/:idUser', function(req, res) {
     var idUser = req.body.idUser
+    console.log(idUser)
     console.log('Fetching saved recipes of the currently logged in user')
     getConnection().query('SELECT DISTINCT recipe.Recipe_Name, recipe.idRecipe FROM recipe JOIN saved_recipes ON recipe.idRecipe = saved_recipes.idRecipe JOIN user ON saved_recipes.idUser = user.idUser WHERE user.idUser = ?', [idUser], function(err, results, fields) {
         if (err) {

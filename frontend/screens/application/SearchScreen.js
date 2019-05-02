@@ -257,7 +257,9 @@ export default class SearchScreen extends React.Component {
     })
   }
 
-  _saveRecipe = () => {
+  _saveRecipe = async () => {
+    idUser = await AsyncStorage.getItem('idUser');
+    console.log(idUser)
     fetch(`http://192.168.0.18:3001/save_recipe`, {
       method: 'POST',
       headers: {
@@ -266,11 +268,17 @@ export default class SearchScreen extends React.Component {
       },
         body: JSON.stringify({
           idUser: idUser,
-          idRecipe: RecipeID,
+          idRecipe: this.state.RecipeID,
         })
     })
     .then((response) => response.json())
     .then((res) => {
+      if(res.success == true) {
+        alert('Recipe saved to inventory');
+      }
+      else {
+        alert('Save unsuccessful');
+      }
     })
   }
 
