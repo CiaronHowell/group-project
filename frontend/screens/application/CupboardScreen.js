@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: '#00ea13',
+    backgroundColor: '#92ce33',
   },
   headTxt: {
     flex: 8,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     padding:25,
     flex: 8,
     alignItems: 'stretch',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
   },
   txt: {
     fontSize: 20,

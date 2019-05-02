@@ -26,6 +26,7 @@ export default class SearchScreen extends React.Component {
       recipeInfo: {},
       ingredientsInfo: {},
       RecipeID: '',
+
     };
   }
 
@@ -150,7 +151,7 @@ export default class SearchScreen extends React.Component {
         renderRow={(rowData) =>
 
        <View style={{flex:1, flexDirection: 'column'}} >
-         <TouchableOpacity onPress={() => {this.viewRecipe(rowData.idRecipe)}}>
+         <TouchableOpacity style={styles.buttonStyle} onPress={() => {this.viewRecipe(rowData.idRecipe)}}>
          <Text style={styles.textViewContainer} >{rowData.Recipe_Name}</Text>
          <Text style={styles.textViewContainer} >{'Total Time: ' + rowData.Total_Time}</Text>
          <Text style={styles.textViewContainer} >{'Calories: ' + rowData.Calories}</Text>
@@ -185,7 +186,7 @@ export default class SearchScreen extends React.Component {
     })
   }
   _searchRecipes = () => {
-    fetch('http://192.168.0.18:3001/recipesearch', {
+    fetch('http://192.168.0.16:3001/recipesearch', {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -207,7 +208,7 @@ export default class SearchScreen extends React.Component {
   }
 
   _viewIngredients = () => {
-    fetch(`http://192.168.0.18:3001/ingredients/${this.state.RecipeID}`, {
+    fetch(`http://192.168.0.16:3001/ingredients/${this.state.RecipeID}`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -231,7 +232,7 @@ export default class SearchScreen extends React.Component {
 
   viewRecipe = (idRecipe) => {
     console.log(idRecipe)
-    fetch(`http://192.168.0.18:3001/recipe/${idRecipe}`, {
+    fetch(`http://192.168.0.16:3001/recipe/${idRecipe}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -258,24 +259,24 @@ const styles = StyleSheet.create({
   mainContainer :{
     justifyContent: 'center',
     flex:1,
-    backgroundColor: '#00ea13',
+    backgroundColor: '#ffffff',
     padding: 5,
   },
   textViewContainer: {
     textAlignVertical:'center', 
     padding:10,
     fontSize: 20,
-    color: '#fff',     
+    color: 'black',     
   },
   containerHead:{
     flex: 1,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#00ea13',
+    backgroundColor:'#92ce33',
   },
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 30,
@@ -329,5 +330,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     margin: 10,
     fontWeight: "bold"
+  },
+  buttonStyle: {
+    flex:1,
+    alignItems:'center',
+    backgroundColor: '#92ce33',
+    borderRadius: 25,
+    margin: 20
   }
 });
