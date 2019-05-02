@@ -21,6 +21,7 @@ import UserScreen from './screens/application/UserProfile';
 import CupboardScreen from './screens/application/CupboardScreen';
 //import RecipeScreen from './screens/application/RecipePage';
 // end of screen imports
+
 class LoginScreen extends React.Component {
   // Adds a title to the top of the screen
   static navigationOptions = {
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#00ea13', 
+    backgroundColor:'#92ce33', 
   },
   headTxt:{
     fontFamily: 'Cochin',
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
   },
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center'
   },

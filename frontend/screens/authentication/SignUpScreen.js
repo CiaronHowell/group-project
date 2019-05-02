@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#08a312', 
+    backgroundColor:'#92ce33', 
     
 
   },
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
 
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff3f2',
+    backgroundColor:'#ffffff',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
   login:{
     padding: 10,
     margin: 50,
-    alignItems: 'stretch',
 
   }
 

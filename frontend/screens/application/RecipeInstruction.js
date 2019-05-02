@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center',
     flexDirection:'row',
-    backgroundColor:'#00ea13', 
+    backgroundColor:'#92ce33', 
   },
   headTxt:{
     flex:8,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'stretch',
     justifyContent: 'center'
   },

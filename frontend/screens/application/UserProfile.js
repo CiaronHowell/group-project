@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#00ea13', 
+    backgroundColor:'#92ce33', 
     
 
   },
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
 
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -98,10 +98,10 @@ const styles = StyleSheet.create({
   txt:{
     padding: 20,
     alignItems: 'center',
-    width: '60%',
+    width: '80%',
     borderColor: 'black',
     borderWidth: 1,
-    borderRadius: 50,
+    borderRadius: 20,
     margin: 10
   }
 });

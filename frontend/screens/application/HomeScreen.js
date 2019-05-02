@@ -24,7 +24,7 @@ export default class App extends React.Component {
       </View>
       {/* TODO: Sort out the buttons for the cupboard and recipes */}
         <View style={styles.containerBody}>
-        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToCupboardPage} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToCupboard} activeOpacity={0.5}>
         <Text style={styles.txt}>My cupboard</Text>  
         </TouchableOpacity>
 
@@ -48,7 +48,42 @@ export default class App extends React.Component {
     this.props.navigation.navigate('Auth');
   };
 
-  _goToCupboardPage = () => {
+  _goToCupboard = async () => {
+    let username = ""
+    let idUser = ""
+    try {
+        username = await AsyncStorage.getItem('username');
+        if (username !== null) {
+          console.log(username);
+        }
+    } catch (error) {
+      console.log(error);
+    }
+
+    fetch(`http://192.168.0.18:3001/home/${username}`, {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+    })
+    .then((response) => response.json())
+    .then((res) => {
+          try {
+            console.log('Stored ID')
+            var userID = JSON.stringify(res[0].idUser);
+            AsyncStorage.setItem('idUser', userID);
+          } catch (error) {
+            console.log(error.message);
+          } 
+    })
+    .done();
+
+    try {
+      idUser = await AsyncStorage.getItem('idUser');
+      console.log(idUser);
+    } catch (error) {
+      console.log(error)
+    }
     this.props.navigation.navigate('CupboardPage');
   }
 
@@ -71,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center',
     flexDirection:'row',
-    backgroundColor:'#00ea13', 
+    backgroundColor:'#92ce33', 
   },
   headTxt:{
     flex:8,
@@ -89,7 +124,7 @@ const styles = StyleSheet.create({
   },
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'stretch',
     justifyContent: 'center'
   },
@@ -100,7 +135,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor: '#00ea13',
+    backgroundColor: '#92ce33',
     height: 100,
     borderRadius: 25,
     margin: 20
