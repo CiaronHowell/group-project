@@ -24,7 +24,7 @@ export default class App extends React.Component {
       </View>
       {/* TODO: Sort out the buttons for the cupboard and recipes */}
         <View style={styles.containerBody}>
-        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToCupboardPage} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToCupboard} activeOpacity={0.5}>
         <Text style={styles.txt}>My cupboard</Text>  
         </TouchableOpacity>
 
@@ -48,8 +48,47 @@ export default class App extends React.Component {
     this.props.navigation.navigate('Auth');
   };
 
-  _goToCupboardPage = () => {
-    this.props.navigation.navigate('CupboardPage');
+  _goToCupboard = async () => {
+    let username = ""
+    let idUser = ""
+    try {
+        username = await AsyncStorage.getItem('username');
+        if (username !== null) {
+          console.log(username);
+        }
+    } catch (error) {
+      console.log(error);
+    }
+
+    fetch(`http://localhost:3001/home/${username}`, {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+    })
+    .then((response) => response.json())
+    .then((res) => {
+        if(res.success == true && res.idUser !== null) {
+          try {
+            AsyncStorage.setItem('idUser', res[0].idUser);
+          } catch (error) {
+            console.log(error.message);
+          }
+        }
+    })
+    .done();
+
+    try {
+      idUser = await AsyncStorage.getItem('idUser');
+      
+    } catch (error) {
+      console.log(error)
+    }
+
+    console.log(idUser);
+
+    // TODO: need to change this to the cupboard page
+    //this.props.navigation.navigate('');
   }
 
   _goToSearchRecipe = () => {
