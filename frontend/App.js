@@ -15,9 +15,11 @@ import { createStackNavigator, createAppContainer, createSwitchNavigator } from 
 import SignUpScreen from './screens/authentication/SignUpScreen';
 import HomeScreen from './screens/application/HomeScreen';
 import ForgottenScreen from './screens/authentication/forgottenDetails';
-import RecipeResultScreen from './screens/application/RecipeResults';
+import SavedRecipeScreen from './screens/application/SavedRecipes';
 import SearchScreen from './screens/application/SearchScreen';
 import UserScreen from './screens/application/UserProfile';
+import CupboardScreen from './screens/application/CupboardScreen';
+//import RecipeScreen from './screens/application/RecipePage';
 // end of screen imports
 class LoginScreen extends React.Component {
   // Adds a title to the top of the screen
@@ -70,7 +72,7 @@ class LoginScreen extends React.Component {
 
   // TODO: Comment this method
   login = async () => {
-    fetch('http://localhost:3001/login', {
+    fetch('http://192.168.0.16:3001/login', {
         method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -141,9 +143,11 @@ class AuthLoadingScreen extends React.Component {
 // Creates a navigation stack specifically for the app
 const AppNav = createStackNavigator({
   Home: HomeScreen,
-  RecipeResult: RecipeResultScreen,
+  SavedRecipes: SavedRecipeScreen,
   RecipeScreen: SearchScreen,
   UserProfile: UserScreen,
+  CupboardPage: CupboardScreen,
+  //ViewRecipe: RecipeScreen,
 });
 
 // Creates a navigation stack for a user that isn't authorised yet
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#00ea13', 
+    backgroundColor:'#92ce33', 
   },
   headTxt:{
     fontFamily: 'Cochin',
@@ -179,7 +183,7 @@ const styles = StyleSheet.create({
   },
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center'
   },

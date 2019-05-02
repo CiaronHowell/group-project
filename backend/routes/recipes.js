@@ -17,28 +17,43 @@ function getConnection() {
     return pool   
 }
 
-router.get('/recipe/:idRecipe', function(req, res) {
-    console.log('Fetching chosen recipe')
-    getConnection().query('SELECT * FROM Recipe WHERE idRecipe = ?', [req.params.idrecipe], function(err, results, fields) {
+router.post('/recipe/:idRecipe', function(req, res) {
+    var idRecipe = req.body.idRecipe
+    getConnection().query('SELECT * FROM recipe WHERE idRecipe = ?', [idRecipe], function(err, results, fields) {
         if (err) {
-            console.log('Error when fetching the recipe with chosen ID')
+            console.log('Error when fetching the recipe with chosen ID' + err)
             res.end()
         }
         else {
+            console.log('Fetching Recipe with ID' + idRecipe)
             res.json(results)
         }
     })
 })
 
 router.post('/recipesearch', function(req,res) {
-    console.log('Searching Recipes')
-    var searchText = req.body.searchText
-    getConnection().query('SELECT * FROM Recipe WHERE Recipe_Name LIKE ?', [searchText], function(err, results, fields) {
+    var searchText = ('%' + req.body.searchText + '%')
+    getConnection().query('SELECT * FROM recipe WHERE Recipe_Name LIKE ?', [searchText], function(err, results, fields) {
         if (err) {
-            console.log('Returning search for recipes')
+            console.log('failed returning search for recipes' + err)
             res.end()
         }
         else {
+            console.log('Fetching Recipes' + searchText)
+            res.json(results)
+        }
+    })
+})
+
+router.post('/ingredients/:idRecipe', function(req, res) {
+    var idRecipe = req.body.idRecipe
+    getConnection().query('SELECT Ingredient_Name FROM ((ingredients JOIN ingredients_needed ON ((ingredients.idIngredients = ingredients_needed.idIngredients))) JOIN recipe ON ((recipe.idRecipe = ingredients_needed.idRec))) WHERE (recipe.idRecipe = ?)', [idRecipe], function(err, results, fields) {
+        if (err) {
+            console.log('failed returning search for ingredients' + err)
+            res.end()
+        }
+        else {
+            console.log('Fetching Ingredients' + idRecipe)
             res.json(results)
         }
     })

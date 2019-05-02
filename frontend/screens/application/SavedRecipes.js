@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#00ea13',
+    backgroundColor:'#92ce33',
   },
   headTxt:{
     fontFamily: 'Cochin',
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center'
   },

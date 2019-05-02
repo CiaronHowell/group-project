@@ -32,7 +32,7 @@ export default class App extends React.Component {
         <Text style={styles.txt}>Search recipes</Text>  
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.buttonStyle} onPress={this._goToSavedRecipe} activeOpacity={0.5}>
         <Text style={styles.txt}>Saved recipes</Text>  
         </TouchableOpacity>
 
@@ -47,11 +47,6 @@ export default class App extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
-
-  _goToSearchRecipe = () => {
-    this.props.navigation.navigate('App');
-    this.props.navigation.navigate('RecipeScreen');
-  }
 
   _goToCupboard = async () => {
     let username = ""
@@ -96,6 +91,14 @@ export default class App extends React.Component {
     //this.props.navigation.navigate('');
   }
 
+  _goToSearchRecipe = () => {
+    this.props.navigation.navigate('RecipeScreen');
+  }
+
+  _goToSavedRecipe = () => {
+    this.props.navigation.navigate('SavedRecipes');
+  }
+
   _goToUserProfile = () => {
     this.props.navigation.navigate('UserProfile');
   }
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center',
     flexDirection:'row',
-    backgroundColor:'#00ea13', 
+    backgroundColor:'#92ce33', 
   },
   headTxt:{
     flex:8,
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
   },
   containerBody: {
     flex: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'stretch',
     justifyContent: 'center'
   },
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor: '#00ea13',
+    backgroundColor: '#92ce33',
     height: 100,
     borderRadius: 25,
     margin: 20
