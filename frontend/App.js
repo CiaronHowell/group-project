@@ -70,7 +70,7 @@ class LoginScreen extends React.Component {
 
   // TODO: Comment this method
   login = async () => {
-    fetch('http://192.168.0.18:3001/login', {
+    fetch('http://localhost:3001/login', {
         method: 'POST',
           headers: {
             'Accept': 'application/json',

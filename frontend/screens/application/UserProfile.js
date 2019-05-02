@@ -50,9 +50,9 @@ export default class UserProfile extends React.Component {
         if (username !== null) {
           console.log(username);
         }
-      } catch (error) {
-      }
-    fetch(`http://192.168.0.18:3001/profile/${username}`, {
+    } catch (error) {
+    }
+    fetch(`http://localhost:3001/profile/${username}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
