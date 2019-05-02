@@ -21,8 +21,10 @@ export default class SearchScreen extends React.Component {
     this.state = {
       isLoading: true,
       viewingRecipe: false,
+      viewIngredients: false,
       dataSource: {},
       recipeInfo: {},
+      ingredientsInfo: {},
       RecipeID: '',
 
     };
@@ -109,11 +111,32 @@ export default class SearchScreen extends React.Component {
           <Text style = {styles.recipeTxt}>Rating: {this.state.recipeInfo[0].Rating} </Text>
           <Text style = {styles.recipeTxt}>Instructions: {this.state.recipeInfo[0].Instructions} </Text>
           <Text style = {styles.recipeTxt}>Review: {this.state.recipeInfo[0].Review} </Text>
-          <Button onPress={this.register} title="Save Recipe" type='clear'/>
+          <Button onPress={this._viewIngredients} title="View Ingredients" type='clear'/>
+          <Button onPress={this._saveRecipe} title="Save Recipe" type='clear'/>
         </View>
         </ScrollView>
       </View>
       )
+    }
+    if (this.state.viewIngredients) {
+      return (
+        <View style={styles.mainContainer}>
+        <ListView
+   
+          dataSource={this.state.ingredientsInfo}
+   
+          renderSeparator= {this.ListViewItemSeparator}
+   
+          renderRow={(rowData) =>
+  
+         <View style={{flex:1, flexDirection: 'column'}} >
+           <Text style={styles.textViewContainer} >{rowData.Ingredient_Name}</Text>
+         </View>
+          }
+        />
+        <Button onPress={this._goBackToRecipe} title="Back" type='clear'/>
+      </View>
+        )
     }
     else {
       return (
@@ -141,6 +164,12 @@ export default class SearchScreen extends React.Component {
     }
   }
 
+  _goBackToRecipe = () => {
+    this.setState({
+      viewingRecipe: true,
+      viewIngredients: false,
+    })
+  }
   _searchRecipes = () => {
     fetch('http://192.168.0.18:3001/recipesearch', {
       method: 'POST',
@@ -163,6 +192,29 @@ export default class SearchScreen extends React.Component {
     .done();
   }
 
+  _viewIngredients = () => {
+    fetch(`http://192.168.0.18:3001/ingredients/${this.state.RecipeID}`, {
+      method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({
+            idRecipe: this.state.RecipeID,
+          })
+    })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log(res)
+      let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+      this.setState({
+        viewIngredients: true,
+        viewingRecipe: false,
+        ingredientsInfo: ds.cloneWithRows(res),
+      })
+    })
+  }
+
   viewRecipe = (idRecipe) => {
     console.log(idRecipe)
     fetch(`http://192.168.0.18:3001/recipe/${idRecipe}`, {
@@ -180,10 +232,12 @@ export default class SearchScreen extends React.Component {
       console.log(res)
       this.setState({
         viewingRecipe: true,
-        recipeInfo: res
+        recipeInfo: res,
+        RecipeID: idRecipe,
       })
     })
   }
+
 }
 
 const styles = StyleSheet.create({

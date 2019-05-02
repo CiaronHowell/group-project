@@ -1,105 +1,121 @@
-import React, { Component } from 'react'
-import { StyleSheet, Image, View, TouchableHighlight, FlatList, Text,} from 'react-native';
-class ListItem extends React.Component {
-  _onPress = () => {
-    this.props.onPressItem(this.props.index);
+import React from 'react';
+import {
+  AsyncStorage,
+  Button,
+  StyleSheet,
+  View,
+  ListView,
+  Text,
+  SectionList,
+  TouchableOpacity,
+  TouchableHighlight
+} from 'react-native';
+
+export default class SavedRecipes extends React.Component {
+
+  componentDidMount() {
+    fetch(`http://192.168.0.18:3001/saved_recipes/${idUser}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => response.json())
+    .then((res) => {
+      this.setState({
+        isLoading: false,
+        dataSource: res,
+      })
+    })
   }
 
   render() {
-    const item = this.props.item;
-    const price = item.price_formatted.split(' ')[0];
-    return (
-      
-      <TouchableHighlight
-        onPress={this._onPress}
-        underlayColor='#dddddd'>
-        <View style={styles.containerHead}>
-          <Text style={styles.headTxt}>Yum!</Text>
-        </View>
-        <View style={styles.containerBody}>
-          <View style={styles.rowContainer}>
-            <Image style={styles.thumbnail} source={{ uri: item.img_url }} />
-            <View style={styles.textContainer}>
-              <Text style={styles.txt}>{price}</Text>
-              <Text style={styles.title}
-                numberOfLines={1}>{item.title}</Text>
-            </View>
-          </View>
-          <View style={styles.separator}/>
-        </View>
-      </TouchableHighlight>
-      
-    );
-  }
-}
+    return(
+    <View style={styles.mainContainer}>
+      <ListView
+ 
+        dataSource={this.state.dataSource}
+ 
+        renderSeparator= {this.ListViewItemSeparator}
+ 
+        renderRow={(rowData) =>
 
-export default class ResultsSearch extends Component {
-  _keyExtractor = (item, index) => index;
-
-  _renderItem = ({item, index}) => (
-    <ListItem
-      item={item}
-      index={index}
-      onPressItem={this._onPressItem}
-    />
-  );
-
-  _onPressItem = (index) => {
-    console.log("Pressed row: "+index);
-  };
-
-  render() {
-    return (
-      <FlatList
-        data={this.props.listings}
-        keyExtractor={this._keyExtractor}
-        renderItem={this._renderItem}
+       <View style={{flex:1, flexDirection: 'column'}} >
+         <TouchableOpacity onPress={() => {this.viewRecipe(rowData.idRecipe)}}>
+         <Text style={styles.textViewContainer} >{rowData.Recipe_Name}</Text>
+         <Text style={styles.textViewContainer} >{'Total Time: ' + rowData.Total_Time}</Text>
+         <Text style={styles.textViewContainer} >{'Calories: ' + rowData.Calories}</Text>
+         <Text style={styles.textViewContainer} >{'Rating: ' + rowData.Rating}</Text>
+         </TouchableOpacity>
+       </View>
+        }
       />
+    </View>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
-  containerHead:{
+  containerHead: {
     flex: 1,
-    alignItems:'center',
-    justifyContent:'center',
-    backgroundColor:'#00ea13',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#00ea13',
   },
-  headTxt:{
+  headTxt: {
+    flex: 8,
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
     fontFamily: 'Cochin',
     fontSize: 50,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginLeft: 125,
+  },
+  txtButton: {
+    flex: 2,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   containerBody: {
+    padding:25,
     flex: 8,
+    alignItems: 'stretch',
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  thumbnail: {
-    width: 80,
-    height: 80,
-    marginRight: 10
-  },
-  textContainer: {
-    flex: 1
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
   },
   txt: {
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontSize: 20,
+    alignItems: 'center',
+  },
+  searchDef: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch'
+  },
+  searchInput: {
+    height: 36,
+    padding: 4,
+    marginRight: 5,
+    flexGrow: 1,
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: '#48BBEC',
+    borderRadius: 8,
     color: '#48BBEC'
   },
-  title: {
-    fontSize: 20,
-    color: '#656565'
+  sectionHeader: {
+    paddingTop: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 2,
+    fontSize: 14,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(247,247,247,1.0)',
   },
-  rowContainer: {
-    flexDirection: 'row',
-    padding: 10
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
   },
 });

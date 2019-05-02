@@ -47,7 +47,7 @@ router.get('/inventory/:user_id', function(req, res) {
 //Saved recipes of each user
 router.get('/saved_recipes/:user_id', function(req, res) {
     console.log('Fetching saved recipes of the currently logged in user')
-    getConnection.query('SELECT * FROM saved_recipes WHERE user_id = ?', [req.params.users_id], function(err, results, fields) {
+    getConnection.query('SELECT * FROM saved_recipes WHERE idUser = ?', [req.params.users_id], function(err, results, fields) {
         if (err) {
             console.log('Failed to find saved recipes for the user')
             res.end()

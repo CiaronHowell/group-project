@@ -35,11 +35,25 @@ router.post('/recipesearch', function(req,res) {
     var searchText = ('%' + req.body.searchText + '%')
     getConnection().query('SELECT * FROM recipe WHERE Recipe_Name LIKE ?', [searchText], function(err, results, fields) {
         if (err) {
-            console.log('Returning search for recipes' + err)
+            console.log('failed returning search for recipes' + err)
             res.end()
         }
         else {
             console.log('Fetching Recipes' + searchText)
+            res.json(results)
+        }
+    })
+})
+
+router.post('/ingredients/:idRecipe', function(req, res) {
+    var idRecipe = req.body.idRecipe
+    getConnection().query('SELECT Ingredient_Name FROM ((ingredients JOIN ingredients_needed ON ((ingredients.idIngredients = ingredients_needed.idIngredients))) JOIN recipe ON ((recipe.idRecipe = ingredients_needed.idRec))) WHERE (recipe.idRecipe = ?)', [idRecipe], function(err, results, fields) {
+        if (err) {
+            console.log('failed returning search for ingredients' + err)
+            res.end()
+        }
+        else {
+            console.log('Fetching Ingredients' + idRecipe)
             res.json(results)
         }
     })
