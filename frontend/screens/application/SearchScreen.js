@@ -26,7 +26,6 @@ export default class SearchScreen extends React.Component {
       recipeInfo: {},
       ingredientsInfo: {},
       RecipeID: '',
-
     };
   }
 

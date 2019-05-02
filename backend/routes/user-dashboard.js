@@ -45,14 +45,15 @@ router.get('/inventory/:user_id', function(req, res) {
 })
 
 //Saved recipes of each user
-router.get('/saved_recipes/:user_id', function(req, res) {
+router.get('/saved_recipes/:idUser', function(req, res) {
     console.log('Fetching saved recipes of the currently logged in user')
-    getConnection.query('SELECT * FROM saved_recipes WHERE idUser = ?', [req.params.users_id], function(err, results, fields) {
+    getConnection.query('SELECT DISTINCT Recipe_Name FROM recipe JOIN saved_recipes ON recipe.idRecipe = saved_recipes.idRecipe JOIN user ON saved_recipes.idUser = user.idUser WHERE user.idUser = ?)', [req.params.idUser], function(err, results, fields) {
         if (err) {
             console.log('Failed to find saved recipes for the user')
             res.end()
         }
         else {
+            console.log(req.params.idUser)
             res.json(results)
         }
     })
