@@ -113,6 +113,7 @@ export default class SearchScreen extends React.Component {
           <Text style = {styles.recipeTxt}>Review: {this.state.recipeInfo[0].Review} </Text>
           <Button onPress={this._viewIngredients} title="View Ingredients" type='clear'/>
           <Button onPress={this._saveRecipe} title="Save Recipe" type='clear'/>
+          <Button onPress={this._goBackToResults} title="Back" type='clear'/>
         </View>
         </ScrollView>
       </View>
@@ -159,15 +160,29 @@ export default class SearchScreen extends React.Component {
        </View>
         }
       />
+      <Button onPress={this._goBackToSearch} title="Back" type='clear'/>
     </View>
       )
     }
   }
 
+  _goBackToSearch = () => {
+    this.setState({
+      isLoading: true,
+      viewingRecipe: false
+    })
+  }
   _goBackToRecipe = () => {
     this.setState({
       viewingRecipe: true,
       viewIngredients: false,
+    })
+  }
+
+  _goBackToResults = () => {
+    this.setState({
+      viewingRecipe: false,
+      isLoading: false,
     })
   }
   _searchRecipes = () => {
