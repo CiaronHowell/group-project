@@ -73,7 +73,7 @@ class LoginScreen extends React.Component {
 
   // TODO: Comment this method
   login = async () => {
-    fetch('http://192.168.0.18:3001/login', {
+    fetch('http://localhost:3001/login', {
         method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -91,6 +91,7 @@ class LoginScreen extends React.Component {
           this.props.navigation.navigate('Home');
           try {
             AsyncStorage.setItem('username', this.state.username);
+            this._getUserID();
           } catch (error) {
             console.log(error.message);
           }
@@ -100,6 +101,7 @@ class LoginScreen extends React.Component {
           this.props.navigation.navigate('Home');
           try {
             AsyncStorage.setItem('username', this.state.username);
+            this._getUserID();
           } catch (error) {
             console.log(error.message);
           }
@@ -110,7 +112,47 @@ class LoginScreen extends React.Component {
     })
     .done();
   }
+
+  _getUserID = async () => {
+    let username = ""
+    let idUser = ""
+    try {
+        username = await AsyncStorage.getItem('username');
+        if (username !== null) {
+          console.log(username);
+        }
+    } catch (error) {
+      console.log(error);
+    }
+
+    fetch(`http://localhost:3001/home/${username}`, {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+    })
+    .then((response) => response.json())
+    .then((res) => {
+          try {
+            console.log('Stored ID')
+            let userID = JSON.stringify(res[0].idUser);
+            AsyncStorage.setItem('idUser', userID);
+          } catch (error) {
+            console.log(error.message);
+          } 
+    })
+    .done();
+
+    try {
+      idUser = await AsyncStorage.getItem('idUser');
+      console.log(idUser);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
+
+
 
 // Checks the auth of the user
 // TODO: WE NEED TO DECIDE WHETHER WE WANT TO DO IT THIS WAY
