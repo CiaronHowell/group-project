@@ -48,42 +48,10 @@ export default class App extends React.Component {
     this.props.navigation.navigate('Auth');
   };
 
-  _goToCupboard = async () => {
-    let username = ""
-    let idUser = ""
-    try {
-        username = await AsyncStorage.getItem('username');
-        if (username !== null) {
-          console.log(username);
-        }
-    } catch (error) {
-      console.log(error);
-    }
-
-    fetch(`http://192.168.0.18:3001/home/${username}`, {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          }
-    })
-    .then((response) => response.json())
-    .then((res) => {
-          try {
-            console.log('Stored ID')
-            var userID = JSON.stringify(res[0].idUser);
-            AsyncStorage.setItem('idUser', userID);
-          } catch (error) {
-            console.log(error.message);
-          } 
-    })
-    .done();
-
-    try {
-      idUser = await AsyncStorage.getItem('idUser');
-      console.log(idUser);
-    } catch (error) {
-      console.log(error)
-    }
+  _goToCupboard = async() => {
+    // checking that the user id has been set
+    let userID = await AsyncStorage.getItem('idUser');
+    console.log(userID);
     this.props.navigation.navigate('CupboardPage');
   }
 

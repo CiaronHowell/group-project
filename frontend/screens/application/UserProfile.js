@@ -25,8 +25,6 @@ export default class UserProfile extends React.Component {
       }
 
   render() {
-
-
     return (
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
@@ -52,7 +50,7 @@ export default class UserProfile extends React.Component {
         }
       } catch (error) {
       }
-    fetch(`http://192.168.0.18:3001/profile/${username}`, {
+    fetch(`http://localhost:3001/profile/${username}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
