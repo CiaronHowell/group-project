@@ -14,6 +14,7 @@ import {
 export default class SavedRecipes extends React.Component {
   constructor(props) {
     super(props);
+    this.fetchRecipes = this.fetchRecipes.bind(this)
 
     this.state = {
       isLoading: true,
@@ -27,6 +28,10 @@ export default class SavedRecipes extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchRecipes();
+  }
+
+  fetchRecipes = () => {
     fetch(`http://192.168.0.18:3001/saved_recipes/${idUser}`, {
       headers: {
         'Accept': 'application/json',
@@ -35,10 +40,12 @@ export default class SavedRecipes extends React.Component {
     })
     .then((response) => response.json())
     .then((res) => {
-      this.setState({
-        isLoading: false,
-        dataSource: res,
-      })
+      if (res.success == true) {
+        alert(('Recipe saved'))
+      }
+      else {
+        alert(('Recipe not saved'))
+      }
     })
   }
 
@@ -55,12 +62,7 @@ export default class SavedRecipes extends React.Component {
           renderRow={(rowData) =>
 
         <View style={{flex:1, flexDirection: 'column'}} >
-          <TouchableOpacity onPress={() => {this.viewRecipe(rowData.idRecipe)}}>
           <Text style={styles.textViewContainer} >{rowData.Recipe_Name}</Text>
-          <Text style={styles.textViewContainer} >{'Total Time: ' + rowData.Total_Time}</Text>
-          <Text style={styles.textViewContainer} >{'Calories: ' + rowData.Calories}</Text>
-          <Text style={styles.textViewContainer} >{'Rating: ' + rowData.Rating}</Text>
-          </TouchableOpacity>
         </View>
           }
         />

@@ -37,6 +37,7 @@ export default class CupboardScreen extends React.Component {
             <Button
               color='#48BBEC'
               title='Add'
+              onPress={this.addIngredient}
             />
           </View>
           <View style={styles.rowContainer}>
@@ -60,6 +61,10 @@ export default class CupboardScreen extends React.Component {
 
   _goToUserProfile = () => {
     this.props.navigation.navigate('UserProfile');
+  }
+
+  addIngredient = () => {
+    
   }
 }
 

@@ -44,6 +44,20 @@ router.get('/inventory/:user_id', function(req, res) {
     })
 })
 
+router.post('/save_recipe', function(req, res) {
+    console.log('Saving Recipe')
+    getConneciton.query('INSERT INTO user (idUser, idRecipe) VALUES (?, ?)', [req.body.idUser, req.body.idRecipe], function(err, results, fields) {
+        if (err) {
+            console.log('Failed to insert save recipe')
+            res.send({'success': false})
+            res.end()
+        }
+        else {
+            res.send({'success': true})
+        }
+    })
+})
+
 //Saved recipes of each user
 router.get('/saved_recipes/:idUser', function(req, res) {
     console.log('Fetching saved recipes of the currently logged in user')

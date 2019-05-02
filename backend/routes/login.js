@@ -39,7 +39,7 @@ router.post('/register', (req, res ) => {
     var login_name = req.body.username
     var login_password = req.body.password
     var login_password2 = req.body.password2
-    const is_admin = 0
+    const isAdmin = 0
     if (login_password == login_password2) {
         //This gets the connection and does an INSERT sql query to the selected database 
         getConnection().query("INSERT INTO user (Username, User_password, First_Name, Surname, isAdmin, Email_Address) VALUES (?, ?, ?, ?, ?, ?)", 

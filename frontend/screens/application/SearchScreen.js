@@ -49,7 +49,7 @@ export default class SearchScreen extends React.Component {
         <View style={{flex: 1, flexDirection:'row'}}>
         <Text style={styles.headTxt}>Yum!</Text>
         {/* TODO: Fix the position of the user button */}
-        <Button title="User"  style={styles.txtButton} onPress={this._onPressButton} type='clear'/>
+        <Button title="User"  style={styles.txtButton} onPress={this._goToUserProfile} type='clear'/>
         </View>
       </View>
         <View style={styles.containerBody}>
@@ -165,6 +165,10 @@ export default class SearchScreen extends React.Component {
     }
   }
 
+  _goToUserProfile = () => {
+    this.props.navigation.navigate('UserProfile');
+  }
+
   _goBackToSearch = () => {
     this.setState({
       isLoading: true,
@@ -249,6 +253,23 @@ export default class SearchScreen extends React.Component {
         recipeInfo: res,
         RecipeID: idRecipe,
       })
+    })
+  }
+
+  _saveRecipe = () => {
+    fetch(`http://192.168.0.18:3001/save_recipe`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({
+          idUser: idUser,
+          idRecipe: RecipeID,
+        })
+    })
+    .then((response) => response.json())
+    .then((res) => {
     })
   }
 
