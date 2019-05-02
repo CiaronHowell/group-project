@@ -1,10 +1,10 @@
 {
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://46-ccr.anonymous.frontend.exp.direct",
-  "packagerNgrokUrl": "https://packager.46-ccr.anonymous.frontend.exp.direct",
-  "ngrokPid": 13044,
+  "expoServerPort": null,
+  "expoServerNgrokUrl": "https://4i-t5i.anonymous.frontend.exp.direct",
+  "packagerNgrokUrl": "https://packager.4i-t5i.anonymous.frontend.exp.direct",
+  "ngrokPid": 84729,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 18736,
+  "packagerPort": null,
+  "packagerPid": null,
   "webpackServerPort": null
 }
