@@ -64,9 +64,9 @@ export default class AdminPage extends React.Component {
               <Text style={styles.txt}>Email Address:  {this.state.EmailAddressTxt}</Text>
               <Text style={styles.txt}>Password:  {this.state.PasswordTxt}</Text>
               <View style={{flex:1, flexDirection: 'column'}} >
-                <View style={{flex:1, flexDirection: 'row'}} >
-                  <Button title="Edit User" onPress={this.editUserDetails}></Button>
-                  <Button title="Delete User" onPress={this.deleteDetails}></Button>
+                <View style={styles.userButtons}>
+                  <Button title="Edit User" onPress={this.editUserDetails} color='#48BBEC'></Button>
+                  <Button title="Delete User" onPress={this.deleteDetails} color='#48BBEC'></Button>
                 </View>
               </View>
             </View>
@@ -100,9 +100,9 @@ export default class AdminPage extends React.Component {
               <Text style={styles.txt}>Email Address:  {this.state.EmailAddressTxt}</Text>
               <Text style={styles.txt}>Password:  {this.state.PasswordTxt}</Text>
               <View style={{flex:1, flexDirection: 'column'}} >
-                <View style={{flex:1, flexDirection: 'row'}} >
-                  <Button title="Edit User" onPress={this.editUserDetails}></Button>
-                  <Button title="Delete User" onPress={this.deleteDetails}></Button>
+                <View style={styles.userButtons}>
+                  <Button title="Edit User" onPress={this.editUserDetails} color='#48BBEC'></Button>
+                  <Button title="Delete User" onPress={this.deleteDetails} color='#48BBEC'></Button>
                 </View>
                 <TextInput style = {styles.txtInput} keyboardType = 'email-address' placeholder = "Email..." onChangeText={(newEmail) => this.setState({newEmail})} />
                 <TextInput style = {styles.txtInput} placeholder = "First Name..." onChangeText={(newFirstName) => this.setState({newFirstName})} />
@@ -110,7 +110,9 @@ export default class AdminPage extends React.Component {
                 <TextInput style = {styles.txtInput} placeholder = "Username..." onChangeText={(newUsername) => this.setState({newUsername})} />
                 <TextInput secureTextEntry={true} style = {styles.txtInput} placeholder = "Password..." onChangeText={(newPassword) => this.setState({newPassword})} />
                 <TextInput secureTextEntry={true} style = {styles.txtInput} placeholder = "Confirm Password..." onChangeText={(newPassword2) => this.setState({newPassword2})} />
-                <Button title="Save Changes" onPress={this.changeDetails}> </Button>
+                <View style={styles.userButtons}>
+                  <Button title="Save Changes" onPress={this.changeDetails} color='#48BBEC'></Button>
+                </View>
               </View>
             </View>
           </View>
@@ -218,11 +220,6 @@ const styles = StyleSheet.create({
     height:100,
     resizeMode: 'contain',
   },
-  txtButton: {
-    flex: 2,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
   containerBody: {
     padding:25,
     flex: 8,
@@ -231,12 +228,14 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 20,
-    alignItems: 'center',
+    alignItems: 'left',
+    fontWeight:'bold',
   },
   searchDef: {
+    paddingBottom:10,
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'stretch'
+    alignSelf: 'center'
   },
   searchInput: {
     height: 36,
@@ -246,30 +245,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderWidth: 1,
     borderColor: '#48BBEC',
-    borderRadius: 8,
+    borderRadius: 30,
     color: '#48BBEC'
   },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 14,
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)',
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
   txtInput:{
-    padding: 10,
+    flex: 1,
     alignItems: 'center',
-    width: '60%',
-    borderColor: 'black',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    height: 36,
+    padding: 4,
+    fontSize: 18,
+    width: '80%',
+    borderColor: '#48BBEC',
     borderWidth: 1,
-    borderRadius: 40,
+    borderRadius: 30,
     margin: 10
   },
+  userButtons:{
+    flex:1, 
+    flexDirection: 'row', 
+    justifyContent:'center', 
+    alignItems:'center', 
+    padding:20
+  }
 });
