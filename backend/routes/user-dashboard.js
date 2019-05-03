@@ -141,7 +141,7 @@ router.post('/alter_details', (req, res ) => {
 router.post('/delete_user', function(req, res) {
     console.log('Delete User')
     console.log(req.body.idUser)
-    getConnection().query('DELETE FROM user WHERE idUser = ?', [req.body.idUser], function(err, results, fields) {
+    getConnection().query('DELETE FROM user, saved_recipes, inventory WHERE user.idUser = ?', [req.body.idUser], function(err, results, fields) {
         if (err) {
             console.log('Failed to delete user' + err)
             res.send({'success': false})
