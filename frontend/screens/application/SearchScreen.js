@@ -58,37 +58,8 @@ export default class SearchScreen extends React.Component {
           <TextInput style={styles.searchInput} onChangeText={(searchText) => this.setState({searchText})} placeholder='Search for Recipe'/>
         <Button onPress={this._searchRecipes} color='#48BBEC' title='Search'/>
         </View>
-      
-        <MenuProvider style={{ flexDirection: "column", padding: 60 }}>
-        <Menu>
-
-          <MenuTrigger>
-          <Text style={styles.filterTxt}>Filter</Text>
-          </MenuTrigger>
-
-          <MenuOptions>
-            <MenuOption>
-              <Text style={styles.txt}>Item1</Text>
-            </MenuOption>
-            <MenuOption>
-              <Text style={styles.txt}>Item2</Text>
-            </MenuOption>
-            <MenuOption>
-              <Text style={styles.txt}>Item3</Text>
-            </MenuOption>
-            <MenuOption>
-              <Text style={styles.txt}>Item4</Text>
-            </MenuOption>
-            <MenuOption>
-              <Text style={styles.txt}>Item5</Text>
-            </MenuOption>
-            <MenuOption value={3} disabled={true}>
-              <Text style={styles.txt}>Disabled Menu</Text>
-            </MenuOption>
-          </MenuOptions>
-
-        </Menu>
-      </MenuProvider>
+        <Button onPress={this._searchMatchedRecipes} style={{ flexDirection: "column", padding: 60 }} color='#48BBEC' title='Search using cupboard'/>
+        
       </View>
       </View>
       
@@ -188,6 +159,32 @@ export default class SearchScreen extends React.Component {
       isLoading: false,
     })
   }
+
+  _searchMatchedRecipes = async () => {
+    let idUser = await AsyncStorage.getItem('idUser')
+
+
+    fetch(`http://172.20.10.2:3001/matched_recipes/${idUser}`, {
+      method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+          body: JSON.stringify({
+            idUser: idUser,
+          })
+    })
+    .then((response) => response.json())
+    .then((res) => {
+      console.log(res)
+      let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+      this.setState({
+        isLoading: false,
+        dataSource: ds.cloneWithRows(res[0]),
+      })
+    })
+  }
+
   _searchRecipes = () => {
     fetch('http://172.20.10.2:3001/recipesearch', {
       method: 'POST',

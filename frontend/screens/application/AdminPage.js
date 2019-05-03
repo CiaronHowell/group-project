@@ -40,8 +40,8 @@ export default class AdminPage extends React.Component {
   render() {
     if (this.state.isLoading) {
       return (
+      <View style={{flex: 1 }}>  
       <ScrollView>
-        <View style={{ flex: 1 }}>
           <View style={styles.containerHead}>
           <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
           </View>
@@ -58,20 +58,20 @@ export default class AdminPage extends React.Component {
                 title='Search'
               />
             </View>
-              <Text style={styles.txt}>Username:  {this.state.UsernameTxt} </Text>
+            <Text style={styles.txt}>Username:  {this.state.UsernameTxt} </Text>
               <Text style={styles.txt}>First Name:  {this.state.FirstNameTxt}</Text>
               <Text style={styles.txt}>Surname:  {this.state.SurnameTxt}</Text>
               <Text style={styles.txt}>Email Address:  {this.state.EmailAddressTxt}</Text>
               <Text style={styles.txt}>Password:  {this.state.PasswordTxt}</Text>
               <View style={{flex:1, flexDirection: 'column'}} >
                 <View style={styles.userButtons}>
-                  <Button title="Edit User" onPress={this.editUserDetails} color='#48BBEC'></Button>
-                  <Button title="Delete User" onPress={this.deleteDetails} color='#48BBEC'></Button>
+                  <Button title="Edit User" onPress={this.editUserDetails}></Button>
+                  <Button title="Edit Recipes" onPress={this.goToEditRecipes}></Button>
                 </View>
               </View>
             </View>
-          </View>
       </ScrollView>
+      </View>
       )
     }
     if (this.state.editingDetails) {
@@ -100,9 +100,9 @@ export default class AdminPage extends React.Component {
               <Text style={styles.txt}>Email Address:  {this.state.EmailAddressTxt}</Text>
               <Text style={styles.txt}>Password:  {this.state.PasswordTxt}</Text>
               <View style={{flex:1, flexDirection: 'column'}} >
-                <View style={styles.userButtons}>
-                  <Button title="Edit User" onPress={this.editUserDetails} color='#48BBEC'></Button>
-                  <Button title="Delete User" onPress={this.deleteDetails} color='#48BBEC'></Button>
+              <View style={styles.userButtons}>
+                  <Button title="Edit User" onPress={this.editUserDetails}></Button>
+                  <Button title="Edit Recipes" onPress={this.goToEditRecipes}></Button>
                 </View>
                 <TextInput style = {styles.txtInput} keyboardType = 'email-address' placeholder = "Email..." onChangeText={(newEmail) => this.setState({newEmail})} />
                 <TextInput style = {styles.txtInput} placeholder = "First Name..." onChangeText={(newFirstName) => this.setState({newFirstName})} />
@@ -110,15 +110,17 @@ export default class AdminPage extends React.Component {
                 <TextInput style = {styles.txtInput} placeholder = "Username..." onChangeText={(newUsername) => this.setState({newUsername})} />
                 <TextInput secureTextEntry={true} style = {styles.txtInput} placeholder = "Password..." onChangeText={(newPassword) => this.setState({newPassword})} />
                 <TextInput secureTextEntry={true} style = {styles.txtInput} placeholder = "Confirm Password..." onChangeText={(newPassword2) => this.setState({newPassword2})} />
-                <View style={styles.userButtons}>
-                  <Button title="Save Changes" onPress={this.changeDetails} color='#48BBEC'></Button>
-                </View>
+                <Button title="Save Changes" onPress={this.changeDetails}> </Button>
               </View>
             </View>
           </View>
       </ScrollView>
       )
     }
+  }
+
+  goToEditRecipes = () => {
+    this.props.navigation.navigate('AdminRecipe');
   }
 
   editUserDetails = () => {
@@ -220,22 +222,25 @@ const styles = StyleSheet.create({
     height:100,
     resizeMode: 'contain',
   },
+  txtButton: {
+    flex: 2,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   containerBody: {
-    padding:25,
     flex: 8,
+    padding:25,
     alignItems: 'stretch',
     backgroundColor: '#ffffff',
   },
   txt: {
     fontSize: 20,
-    alignItems: 'left',
-    fontWeight:'bold',
+    alignItems: 'center',
   },
   searchDef: {
-    paddingBottom:10,
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'center'
+    alignSelf: 'stretch'
   },
   searchInput: {
     height: 36,
@@ -247,6 +252,20 @@ const styles = StyleSheet.create({
     borderColor: '#48BBEC',
     borderRadius: 30,
     color: '#48BBEC'
+  },
+  sectionHeader: {
+    paddingTop: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 2,
+    fontSize: 14,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(247,247,247,1.0)',
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
   },
   txtInput:{
     flex: 1,

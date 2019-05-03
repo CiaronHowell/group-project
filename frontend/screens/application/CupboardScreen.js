@@ -142,7 +142,7 @@ export default class CupboardScreen extends React.Component {
 
   _goBackToInventory = () => {
     this.setState({
-      viewingInventory: true,
+      isLoading: true,
       viewIngredients: false,
     })
   }

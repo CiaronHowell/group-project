@@ -22,7 +22,6 @@ export default class App extends React.Component {
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('isAdmin');
-      console.log(value)
       this.setState({
         isAdmin: value
       })
