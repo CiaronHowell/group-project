@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
   Text,
+  Image,
   TextInput,
 } from 'react-native';
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
@@ -26,15 +27,12 @@ class LoginScreen extends React.Component {
     title: 'Please sign in',
   };
 
-  _onPressButton(){
-    color = 'red'
-  }
 
   render() {
     return (
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
-        <Text style={styles.headTxt}>Yum!</Text>
+      <Image source = {require('./screens/Yum.png')} style = {styles.headTxt}/>
       </View>
         <View style={styles.containerBody}>
 
@@ -67,7 +65,7 @@ class LoginScreen extends React.Component {
   }
 
   login = async () => {
-    fetch('http://192.168.0.18:3001/login', {
+    fetch('http://172.20.10.2:3001/login', {
         method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -132,7 +130,7 @@ class LoginScreen extends React.Component {
       console.log(error);
     }
 
-    fetch(`http://192.168.0.18:3001/home/${username}`, {
+    fetch(`http://172.20.10.2:3001/home/${username}`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -226,9 +224,11 @@ const styles = StyleSheet.create({
     backgroundColor:'#92ce33', 
   },
   headTxt:{
-    fontFamily: 'Cochin',
-    fontSize: 50,
-    fontWeight: 'bold'
+    alignSelf:'center',
+    justifyContent:'center',
+    width:100,
+    height:100,
+    resizeMode: 'contain',
   },
   containerBody: {
     flex: 8,
