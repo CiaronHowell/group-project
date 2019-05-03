@@ -14,13 +14,11 @@ import { createStackNavigator, createAppContainer, createSwitchNavigator } from 
 // Screen imports
 import SignUpScreen from './screens/authentication/SignUpScreen';
 import HomeScreen from './screens/application/HomeScreen';
-import ForgottenScreen from './screens/authentication/forgottenDetails';
 import SavedRecipeScreen from './screens/application/SavedRecipes';
 import SearchScreen from './screens/application/SearchScreen';
 import UserScreen from './screens/application/UserProfile';
 import CupboardScreen from './screens/application/CupboardScreen';
-//import RecipeScreen from './screens/application/RecipePage';
-// end of screen imports
+import AdminScreen from './screens/application/AdminPage'
 
 class LoginScreen extends React.Component {
   // Adds a title to the top of the screen
@@ -48,9 +46,6 @@ class LoginScreen extends React.Component {
           />
      
           <Button title="Register!" onPress={this._goToSignUp} />
-          {/* TODO: Sort out a forgotten login page */}
-          <Button title="Forgotten Login details" onPress={this._forgottenDetails} type='clear'/>
-          {/*TODO: Change the login button back to calling the login method*/}
           <Button title="Login" onPress={this.login} style = {styles.login} />
         </View>
       </View>
@@ -61,16 +56,13 @@ class LoginScreen extends React.Component {
   _goToSignUp = () => {
     this.props.navigation.navigate('SignUp');
   };
-
-  _forgottenDetails = () => {
-    this.props.navigation.navigate('ForgottenDetails');
-  };
-
+  
   constructor(props) {
     super(props);
     this.state = {
       username: '', 
       password: '',
+      isAdmin: 'false',
     }
   }
 
@@ -89,9 +81,12 @@ class LoginScreen extends React.Component {
     .then((response) => response.json())
     .then((res) => {
         if(res.success == true && res.admin == true) {
+          this.setState({
+            isAdmin: 'true',
+          })
           alert(('Logging in as admin'))
           try {
-            AsyncStorage.setItem('isAdmin', true);
+            AsyncStorage.setItem('isAdmin', 'true');
           } catch (error) {
             console.log(error.message);
           }
@@ -107,7 +102,7 @@ class LoginScreen extends React.Component {
           alert(('Logging in as user'))
           this.props.navigation.navigate('Home');
           try {
-            AsyncStorage.setItem('isAdmin', false);
+            AsyncStorage.setItem('isAdmin', 'false');
           } catch (error) {
             console.log(error.message);
           }
@@ -202,14 +197,13 @@ const AppNav = createStackNavigator({
   RecipeScreen: SearchScreen,
   UserProfile: UserScreen,
   CupboardPage: CupboardScreen,
-  //ViewRecipe: RecipeScreen,
+  AdminPage: AdminScreen,
 });
 
 // Creates a navigation stack for a user that isn't authorised yet
 const AuthNav = createStackNavigator({ 
   Login: LoginScreen, 
   SignUp: SignUpScreen,
-  ForgottenDetails: ForgottenScreen,
 });
 
 // Creating the application container for the navigation stacks

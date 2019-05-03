@@ -67,7 +67,6 @@ export default class SavedRecipes extends React.Component {
             <Text style = {styles.recipeTxt}>Instructions: {this.state.recipeInfo[0].Instructions} </Text>
             <Text style = {styles.recipeTxt}>Review: {this.state.recipeInfo[0].Review} </Text>
             <Button onPress={this._viewIngredients} title="View Ingredients" type='clear'/>
-            <Button onPress={this._saveRecipe} title="Save Recipe" type='clear'/>
             <Button onPress={this._goBackToResults} title="Back" type='clear'/>
           </View>
           </ScrollView>

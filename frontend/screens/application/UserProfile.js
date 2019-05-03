@@ -31,10 +31,10 @@ export default class UserProfile extends React.Component {
         <Text style={styles.headTxt}>Yum!</Text>
       </View>
         <View style={styles.containerBody}>
-            <Text style={styles.txt}>Username: {this.state.UsernameTxt} </Text>
-            <Text style={styles.txt}>First Name: {this.state.FirstNameTxt}</Text>
-            <Text style={styles.txt}>Surname: {this.state.SurnameTxt}</Text>
-            <Text style={styles.txt}>Email Address: {this.state.EmailAddressTxt}</Text>
+            <Text style={styles.txt}>Username:  {this.state.UsernameTxt} </Text>
+            <Text style={styles.txt}>First Name:  {this.state.FirstNameTxt}</Text>
+            <Text style={styles.txt}>Surname:  {this.state.SurnameTxt}</Text>
+            <Text style={styles.txt}>Email Address:  {this.state.EmailAddressTxt}</Text>
             <Button title="Get Info" onPress={this._loadProfile} type='clear'/>
         </View>
       </View>
@@ -50,7 +50,7 @@ export default class UserProfile extends React.Component {
         }
       } catch (error) {
       }
-    fetch(`http://localhost:3001/profile/${username}`, {
+    fetch(`http://192.168.0.18:3001/profile/${username}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

@@ -19,8 +19,9 @@ function getConnection() {
 
 //Profile for each individual user, we query the database then pull information regarding the user's id
 router.get('/profile/:Username', function(req, res) {
-    console.log("Fetching user with id: " + req.params.Username)
-    getConnection().query('SELECT * FROM user WHERE Username = ?', [req.params.Username], function(err, results, fields) {
+    console.log('Fetching user info')
+    var username =  ('%' + req.params.Username + '%')
+    getConnection().query('SELECT * FROM user WHERE Username LIKE ?', [username], function(err, results, fields) {
         if (err) {
             console.log('Failed to find user profile' + err)
             res.end()
@@ -102,6 +103,53 @@ router.post('/saved_recipes/:idUser', function(req, res) {
         else {
             console.log('Pulled recipes')
             res.json(results)
+        }
+    })
+})
+
+router.post('/alter_details', (req, res ) => {
+    //Sends message to the console
+    console.log("Editing details")
+    //Creates constants of the different parameters taken from the register frontend
+    var userID = req.body.userID
+    var email_address = req.body.emailAddress
+    var first_name = req.body.firstName
+    var last_name = req.body.lastName
+    var login_name = req.body.username
+    var login_password = req.body.password
+    var login_password2 = req.body.password2
+    if (login_password == login_password2) {
+        //This gets the connection and does an INSERT sql query to the selected database 
+        getConnection().query("UPDATE user SET First_Name = ?, Surname = ?, Username = ?, User_Password = ?, Email_Address = ? WHERE idUser = ?", 
+        [first_name, last_name, login_name, login_password, email_address, userID], (err, results, fields) => {
+            //If we get an error we return this to the server 
+            if (err) {
+                console.log("Failed to change details" + err)
+                return
+            }
+            //Otherwise we have added a user to the database
+            console.log("User details changed")
+            res.send({'success': true})
+        })
+    }
+    else {
+        console.log('Passwords dont match')
+        res.send({'success': false})
+    }
+})
+
+router.post('/delete_user', function(req, res) {
+    console.log('Delete User')
+    console.log(req.body.idUser)
+    getConnection().query('DELETE FROM user WHERE idUser = ?', [req.body.idUser], function(err, results, fields) {
+        if (err) {
+            console.log('Failed to delete user' + err)
+            res.send({'success': false})
+            res.end()
+        }
+        else {
+            console.log('Deleted successfully')
+            res.send({'success': true})
         }
     })
 })

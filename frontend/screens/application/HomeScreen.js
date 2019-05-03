@@ -14,7 +14,7 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      isAdmin: false
+      isAdmin: 'false'
     };
   }
 
@@ -32,7 +32,7 @@ export default class App extends React.Component {
 
   render() {
     {this._retrieveData()}
-    if (this.state.isAdmin) {
+    if (this.state.isAdmin == 'true') {
       return (
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
@@ -61,7 +61,7 @@ export default class App extends React.Component {
       </View>
     );
   }
-  if (!this.state.isAdmin) {
+  if (this.state.isAdmin == 'false') {
     return (
     <View style={{flex: 1}}>
     <View style={styles.containerHead}>
@@ -96,6 +96,10 @@ export default class App extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   };
+
+  _goToAdminPage = () => {
+    this.props.navigation.navigate('AdminPage');
+  }
 
   _goToCupboard = async() => {
     // checking that the user id has been set
