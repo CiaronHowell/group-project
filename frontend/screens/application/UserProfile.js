@@ -8,6 +8,7 @@ import {
   View,
   Text,
   TextInput,
+  Image,
 } from 'react-native';
 
 export default class UserProfile extends React.Component {
@@ -28,13 +29,13 @@ export default class UserProfile extends React.Component {
     return (
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
-        <Text style={styles.headTxt}>Yum!</Text>
+      <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
       </View>
         <View style={styles.containerBody}>
-            <Text style={styles.txt}>Username:  {this.state.UsernameTxt} </Text>
-            <Text style={styles.txt}>First Name:  {this.state.FirstNameTxt}</Text>
-            <Text style={styles.txt}>Surname:  {this.state.SurnameTxt}</Text>
-            <Text style={styles.txt}>Email Address:  {this.state.EmailAddressTxt}</Text>
+            <Text style={styles.txt}>Username: {this.state.UsernameTxt} </Text>
+            <Text style={styles.txt}>First Name: {this.state.FirstNameTxt}</Text>
+            <Text style={styles.txt}>Surname: {this.state.SurnameTxt}</Text>
+            <Text style={styles.txt}>Email Address: {this.state.EmailAddressTxt}</Text>
             <Button title="Get Info" onPress={this._loadProfile} type='clear'/>
         </View>
       </View>
@@ -50,7 +51,7 @@ export default class UserProfile extends React.Component {
         }
       } catch (error) {
       }
-    fetch(`http://192.168.0.18:3001/profile/${username}`, {
+    fetch(`http://172.20.10.2:3001/profile/${username}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -81,10 +82,13 @@ const styles = StyleSheet.create({
 
   },
   headTxt:{
-    fontFamily: 'Cochin',
-    fontSize: 50,
-    fontWeight: 'bold'
+    alignSelf:'center',
+    justifyContent:'center',
+    width:100,
+    height:100,
+    resizeMode: 'contain',
   },
+  
 
   containerBody: {
     flex: 8,

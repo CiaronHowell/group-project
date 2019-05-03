@@ -7,6 +7,7 @@ import {
   Text,
   P,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 
 export default class RecipeInstruction extends React.Component {
@@ -19,8 +20,7 @@ export default class RecipeInstruction extends React.Component {
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
         <View style={{flex: 1, flexDirection:'row'}}>
-        <Text style={styles.headTxt}>Yum!</Text>
-        <Button title="User"  style={styles.txtButton} onPress={this._goToUserProfile} type='clear'/>
+        <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
         </View>
       </View>
         <View style={styles.containerBody}>
@@ -49,13 +49,11 @@ const styles = StyleSheet.create({
     backgroundColor:'#92ce33', 
   },
   headTxt:{
-    flex:8,
-    alignSelf:'flex-end',
-    justifyContent:'flex-end',
-    fontFamily: 'Cochin',
-    fontSize: 50,
-    fontWeight: 'bold',
-    marginLeft: 125
+    alignSelf:'center',
+    justifyContent:'center',
+    width:100,
+    height:100,
+    resizeMode: 'contain',
   },
   txtButton:{
     flex:2,

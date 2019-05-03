@@ -47,13 +47,7 @@ export default class CupboardScreen extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.containerHead}>
-          <Text style={styles.headTxt}>Yum!</Text>
-          <Button
-            title="User"
-            style={styles.txtButton}
-            onPress={this._goToUserProfile}
-            type="clear"
-          />
+        <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
         </View>
         <View style={styles.containerBody}>
           <View style={styles.searchDef}>
@@ -79,13 +73,7 @@ export default class CupboardScreen extends React.Component {
         <ScrollView>
         <View style={{ flex: 1 }}>
           <View style={styles.containerHead}>
-            <Text style={styles.headTxt}>Yum!</Text>
-            <Button
-              title="User"
-              style={styles.txtButton}
-              onPress={this._goToUserProfile}
-              type="clear"
-            />
+          <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
           </View>
           <View style={styles.containerBody}>
             <View style={styles.searchDef}>
@@ -161,7 +149,7 @@ export default class CupboardScreen extends React.Component {
 
   deleteIngredient = async (idIngredient) => {
     let idUser = await AsyncStorage.getItem('idUser');
-    fetch(`http://192.168.0.18:3001/delete_ingredient`, {
+    fetch(`http://172.20.10.2:3001/delete_ingredient`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -187,7 +175,7 @@ export default class CupboardScreen extends React.Component {
 
   addIngredient = async (idIngredient) => {
     let idUser = await AsyncStorage.getItem('idUser');
-    fetch(`http://192.168.0.18:3001/add_ingredient`, {
+    fetch(`http://172.20.10.2:3001/add_ingredient`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -207,7 +195,7 @@ export default class CupboardScreen extends React.Component {
   }
 
   searchIngredient = () => {
-    fetch(`http://192.168.0.18:3001/search_ingredients`, {
+    fetch(`http://172.20.10.2:3001/search_ingredients`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -233,7 +221,7 @@ export default class CupboardScreen extends React.Component {
   viewInventory = async () => {
     let idUser = await AsyncStorage.getItem('idUser');
     console.log(idUser)
-    fetch(`http://192.168.0.18:3001/inventory/${idUser}`, {
+    fetch(`http://172.20.10.2:3001/inventory/${idUser}`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -265,14 +253,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#92ce33',
   },
-  headTxt: {
-    flex: 8,
-    alignSelf: 'flex-end',
-    justifyContent: 'flex-end',
-    fontFamily: 'Cochin',
-    fontSize: 50,
-    fontWeight: 'bold',
-    marginLeft: 125,
+  headTxt:{
+    alignSelf:'center',
+    justifyContent:'center',
+    width:100,
+    height:100,
+    resizeMode: 'contain',
   },
   txtButton: {
     flex: 2,

@@ -10,6 +10,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {Menu, MenuProvider, MenuOptions, MenuOption, MenuTrigger} from "react-native-popup-menu";
 
@@ -48,7 +49,7 @@ export default class SearchScreen extends React.Component {
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
         <View style={{flex: 1, flexDirection:'row'}}>
-        <Text style={styles.headTxt}>Yum!</Text>
+        <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
         </View>
       </View>
         <View style={styles.containerBody}>
@@ -98,7 +99,7 @@ export default class SearchScreen extends React.Component {
         <View style={{flex: 1}}>
       <ScrollView>
         <View style={styles.containerHead}>
-        <Text style={styles.headTxt}>Yum!</Text>
+        <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
       </View>
         <View style={styles.containerBody}>
           <Text style = {styles.titleTxt}>{this.state.recipeInfo[0].Recipe_Name}</Text>
@@ -188,7 +189,7 @@ export default class SearchScreen extends React.Component {
     })
   }
   _searchRecipes = () => {
-    fetch('http://192.168.0.18:3001/recipesearch', {
+    fetch('http://172.20.10.2:3001/recipesearch', {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -210,7 +211,7 @@ export default class SearchScreen extends React.Component {
   }
 
   _viewIngredients = () => {
-    fetch(`http://192.168.0.18:3001/ingredients/${this.state.RecipeID}`, {
+    fetch(`http://172.20.10.2:3001/ingredients/${this.state.RecipeID}`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -234,7 +235,7 @@ export default class SearchScreen extends React.Component {
 
   viewRecipe = (idRecipe) => {
     console.log(idRecipe)
-    fetch(`http://192.168.0.18:3001/recipe/${idRecipe}`, {
+    fetch(`http://172.20.10.2:3001/recipe/${idRecipe}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -258,7 +259,7 @@ export default class SearchScreen extends React.Component {
   _saveRecipe = async () => {
     idUser = await AsyncStorage.getItem('idUser');
     console.log(idUser)
-    fetch(`http://192.168.0.18:3001/save_recipe`, {
+    fetch(`http://172.20.10.2:3001/save_recipe`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -312,9 +313,9 @@ const styles = StyleSheet.create({
   headTxt:{
     alignSelf:'center',
     justifyContent:'center',
-    fontFamily: 'Cochin',
-    fontSize: 50,
-    fontWeight: 'bold',
+    width:100,
+    height:100,
+    resizeMode: 'contain',
   },
   txtButton:{
     flex:1,

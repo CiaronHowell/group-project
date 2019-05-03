@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, Image, } from 'react-native';
 
 export default class SignUpScreen extends React.Component {
   static navigationOptions = {
@@ -14,7 +14,7 @@ export default class SignUpScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
       <View style={styles.containerHead}>
-        <Text style={styles.headTxt}>Yum!</Text>
+      <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
       </View>
         <View style={styles.containerBody}>
 
@@ -37,7 +37,7 @@ export default class SignUpScreen extends React.Component {
   }
 
   register = () => {
-    fetch('http://192.168.0.18:3001/register', {
+    fetch('http://172.20.10.2:3001/register', {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -76,9 +76,11 @@ const styles = StyleSheet.create({
 
   },
   headTxt:{
-    fontFamily: 'Cochin',
-    fontSize: 50,
-    fontWeight: 'bold'
+    alignSelf:'center',
+    justifyContent:'center',
+    width:100,
+    height:100,
+    resizeMode: 'contain',
   },
 
   containerBody: {

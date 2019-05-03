@@ -6,6 +6,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 
 export default class App extends React.Component {
@@ -14,13 +15,14 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      isAdmin: 'false'
+      isAdmin: ''
     };
   }
 
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('isAdmin');
+      console.log(value)
       this.setState({
         isAdmin: value
       })
@@ -38,7 +40,7 @@ export default class App extends React.Component {
       <View style={styles.containerHead}>
         <View style={{flex: 1, flexDirection:'row'}}>
         <Button title="Admin" stlye={styles.txtButton} onPress={this._goToAdminPage} type='clear'/>
-        <Text style={styles.headTxt}>Yum!</Text>
+        <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
         <Button title="User"  style={styles.txtButton} onPress={this._goToUserProfile} type='clear'/>
         </View>
       </View>
@@ -61,12 +63,12 @@ export default class App extends React.Component {
       </View>
     );
   }
-  if (this.state.isAdmin == 'false') {
+  else {
     return (
     <View style={{flex: 1}}>
     <View style={styles.containerHead}>
       <View style={{flex: 1, flexDirection:'row'}}>
-      <Text style={styles.headTxt}>Yum!</Text>
+      <Image source = {require('../Yum.png')} style = {styles.headTxt2}/>
       <Button title="User"  style={styles.txtButton} onPress={this._goToUserProfile} type='clear'/>
       </View>
     </View>
@@ -133,10 +135,18 @@ const styles = StyleSheet.create({
     flex:8,
     alignSelf:'flex-end',
     justifyContent:'flex-end',
-    fontFamily: 'Cochin',
-    fontSize: 50,
-    fontWeight: 'bold',
-    marginLeft: 125
+    width:50,
+    height:50,
+    resizeMode:'contain',
+  },
+  headTxt2:{
+    flex:8,
+    alignSelf:'flex-end',
+    justifyContent:'flex-end',
+    width:50,
+    height:50,
+    resizeMode:'contain',
+    marginLeft: 75
   },
   txtButton:{
     flex:2,

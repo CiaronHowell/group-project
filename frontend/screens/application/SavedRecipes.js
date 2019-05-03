@@ -10,7 +10,8 @@ import {
   Text,
   SectionList,
   TouchableOpacity,
-  TouchableHighlight
+  TouchableHighlight,
+  Image,
 } from 'react-native';
 
 export default class SavedRecipes extends React.Component {
@@ -54,7 +55,7 @@ export default class SavedRecipes extends React.Component {
         return (
           <View style={{flex: 1}}>
         <View style={styles.containerHead}>
-          <Text style={styles.headTxt}>Yum!</Text>
+        <Image source = {require('../Yum.png')} style = {styles.headTxt}/>
         </View>
         <ScrollView>
           <View style={styles.containerBody}>
@@ -67,6 +68,7 @@ export default class SavedRecipes extends React.Component {
             <Text style = {styles.recipeTxt}>Instructions: {this.state.recipeInfo[0].Instructions} </Text>
             <Text style = {styles.recipeTxt}>Review: {this.state.recipeInfo[0].Review} </Text>
             <Button onPress={this._viewIngredients} title="View Ingredients" type='clear'/>
+            <Button onPress={this._saveRecipe} title="Save Recipe" type='clear'/>
             <Button onPress={this._goBackToResults} title="Back" type='clear'/>
           </View>
           </ScrollView>
@@ -119,7 +121,7 @@ export default class SavedRecipes extends React.Component {
   fetchRecipes = async () => {
     let idUser = await AsyncStorage.getItem('idUser');
     console.log(idUser)
-    fetch(`http://192.168.0.18:3001/saved_recipes/${idUser}`, {
+    fetch(`http://172.20.10.2:3001/saved_recipes/${idUser}`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -145,7 +147,7 @@ export default class SavedRecipes extends React.Component {
 
   viewRecipe = (idRecipe) => {
     console.log(idRecipe)
-    fetch(`http://192.168.0.18:3001/recipe/${idRecipe}`, {
+    fetch(`http://172.20.10.2:3001/recipe/${idRecipe}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -167,7 +169,7 @@ export default class SavedRecipes extends React.Component {
   }
 
   _viewIngredients = () => {
-    fetch(`http://192.168.0.18:3001/ingredients/${this.state.RecipeID}`, {
+    fetch(`http://172.20.10.2:3001/ingredients/${this.state.RecipeID}`, {
       method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -219,9 +221,11 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   headTxt:{
-    fontFamily: 'Cochin',
-    fontSize: 50,
-    fontWeight: 'bold'
+    alignSelf:'center',
+    justifyContent:'center',
+    width:100,
+    height:100,
+    resizeMode: 'contain',
   },
   containerBody: {
     flex: 8,
